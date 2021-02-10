@@ -1,0 +1,52 @@
+.gantt {
+  background-color: #fff;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: row;
+  min-height: 410px;
+  position: relative;
+}
+.gantt .gantt-divisor {
+  background-color: #e0e0e0;
+  cursor: col-resize;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  order: 1;
+  -webkit-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  z-index: 9;
+}
+.gantt .gantt-divisor:hover {
+  background-color: #e3165b;
+}
+.gantt .gantt-divisor .divisor-dots {
+  background-color: #fff;
+}
+.gantt .gantt-divisor .divisor-dot {
+  background-color: #666;
+  border-radius: 2px;
+  height: 4px;
+  margin: 2px 0;
+  width: 4px;
+}
+.gantt .gantt-divisor-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.gantt-table {
+  background-color: #fff;
+  flex-basis: 50%;
+  overflow: hidden;
+  order: 0;
+}
+.gantt-chart {
+  background-color: #fff;
+  flex: 1;
+  order: 2;
+}
+/*# sourceMappingURL=src/library.css.map */

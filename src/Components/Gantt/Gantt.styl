@@ -1,0 +1,39 @@
+
+.gantt
+    background-color: #fff;
+    border: 1px solid #333;
+    display: flex;
+    flex-direction: row
+    min-height: 410px
+    position relative
+
+    .gantt-divisor
+        background-color: #e0e0e0
+        cursor col-resize
+        display: flex
+        flex-direction: column
+        justify-content: center
+        order 1
+        user-select: none
+        z-index: 9;
+
+        &:hover
+            background-color: #e3165b
+
+        .divisor-dots
+            background-color: white
+
+        .divisor-dot
+            background-color: #666
+            border-radius: 2px
+            height: 4px;
+            margin: 2px 0
+            width: 4px
+
+    .gantt-divisor-backdrop
+        position: absolute
+        top 0
+        left 0
+        right 0
+        bottom 0
+
