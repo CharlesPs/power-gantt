@@ -53,5 +53,14 @@
     "bootstrap": "^4.6.0",
     "react-bootstrap": "^1.4.3",
     "stylus": "^0.54.8"
-  }
+  },
+  "description": "A Gantt table chart for you",
+  "directories": {
+    "lib": "lib"
+  },
+  "keywords": [
+    "gantt"
+  ],
+  "author": "andres.aguinaga@gmail.com",
+  "license": "MIT"
 }
