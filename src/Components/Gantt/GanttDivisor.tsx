@@ -14,8 +14,6 @@ const GanttDivisor = (props: Props) => {
 
     const onMouseDown = () => {
 
-        console.log('mouse down')
-
         setState({
             ...state,
             dragging: true
@@ -32,14 +30,11 @@ const GanttDivisor = (props: Props) => {
 
     const onMouseUp = () => {
 
-        console.log('mouse up')
-
         setState({
             ...state,
             dragging: false
         })
     }
-
 
     return (
         <>
