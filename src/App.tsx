@@ -14,8 +14,8 @@ const App = () => {
                 <div className="row">
                     <div className="col-12">
                         <Gantt
-                            minTableWidthPercent={10}
-                            maxTableWidthPercent={90}
+                            minTableWidthPercent={25}
+                            maxTableWidthPercent={75}
                             defTableWidthPorcent={50}
                         />
                     </div>
