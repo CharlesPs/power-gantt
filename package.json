@@ -10,7 +10,7 @@
   "scripts": {
     "ts": "tsc --project ./tsconfig.library.json && yarn cp-files",
     "cp-files": "cp './src/library.css' ./lib/",
-    "css": "stylus -u autoprefixer-stylus -m ./src/library.styl ./src/library.css",
+    "css": "stylus -c -u  autoprefixer-stylus -m ./src/library.styl ./src/library.css",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
