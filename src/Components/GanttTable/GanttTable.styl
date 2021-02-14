@@ -4,3 +4,12 @@
     flex-basis: 50%
     overflow: hidden
     order 0
+
+    .header
+        background-color: white
+        border-bottom: 1px solid var(--border-color)
+        height: calc(var(--row-height) * 2);
+
+    .body
+        height calc(100% - (var(--row-height) * 2))
+        overflow auto

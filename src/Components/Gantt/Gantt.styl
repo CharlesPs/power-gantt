@@ -1,10 +1,15 @@
 
 .gantt
     background-color: #fff;
-    border: 1px solid #ececec;
+    border: 1px solid var(--border-color);
     display: flex;
     flex-direction: row
+    height 410px
     min-height: 410px
     position relative
+
+    .gantt-row
+        border-bottom: 1px solid var(--border-color)
+        height: var(--row-height)
 
 @import './GanttDivisor.styl'

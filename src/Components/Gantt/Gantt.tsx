@@ -8,6 +8,8 @@ import GanttDivisor from './GanttDivisor'
 import '../../library.css'
 
 type Props = {
+    id?: string,
+    items: any,
     minTableWidthPercent?: number,
     maxTableWidthPercent?: number,
     defTableWidthPorcent?: number,
@@ -15,12 +17,15 @@ type Props = {
 
 const Gantt = (props: Props) => {
 
+    const localPercent = parseFloat(localStorage.getItem(`gantt-${props.id}`) || '0')
+
     const [ state, setState ] = useState({
-        divisorPosition: props.defTableWidthPorcent || 40,
+        divisorPosition: props.defTableWidthPorcent || localPercent || 40,
         ganttWidth: 0,
         ganttLeft: 0,
         minTableWidthPercent: props.minTableWidthPercent || 20,
         maxTableWidthPercent: props.maxTableWidthPercent || 20,
+        scrollTop: 0,
     })
 
     const ganttElRef: any = useRef()
@@ -38,6 +43,8 @@ const Gantt = (props: Props) => {
 
             porcentaje = state.maxTableWidthPercent
         }
+
+        localStorage.setItem(`gantt-${props.id}`, porcentaje.toString())
 
         setState({
             ...state,
@@ -67,8 +74,17 @@ const Gantt = (props: Props) => {
             <div className="gantt"
                 ref={ganttElRef}
             >
-                <GanttTable divisorPosition={`${state.divisorPosition}%`} />
-                <GanttChart />
+                <GanttTable
+                    items={props.items}
+                    divisorPosition={`${state.divisorPosition}%`}
+                    onScroll={(top: number) => setState({ ...state, scrollTop: top })}
+                    scrollTop={state.scrollTop}
+                />
+                <GanttChart
+                    items={props.items}
+                    onScroll={(top: number) => setState({ ...state, scrollTop: top })}
+                    scrollTop={state.scrollTop}
+                />
                 <GanttDivisor
                     divisorPosition={state.divisorPosition}
                     onScroll={(newPosition: any) => updateDivisorPosition(newPosition)}
