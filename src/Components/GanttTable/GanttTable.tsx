@@ -1,8 +1,11 @@
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+
+import ui_helper from '../../Helpers/UI_helper'
 
 type Props = {
     items: any,
+    columns: any,
     divisorPosition: any,
     onScroll: any,
     scrollTop: number,
@@ -10,16 +13,28 @@ type Props = {
 
 const GanttTable = (props: Props) => {
 
-    const el_ref: any = useRef()
+    const header_ref: any = useRef()
+    const body_ref: any = useRef()
 
-    const onScroll = (e: any) => {
+    const [ state, setState ] = useState({
+        scrollLeft: 0
+    })
 
-        props.onScroll(el_ref.current.scrollTop)
+    const onBodyHorizontalScroll = () => {
+
+        header_ref.current.scrollLeft = body_ref.current.scrollLeft
+    }
+
+    const onBodyScroll = (e: any) => {
+
+        onBodyHorizontalScroll()
+
+        props.onScroll(body_ref.current.scrollTop)
     }
 
     useEffect(() => {
 
-        el_ref.current.scrollTop = props.scrollTop
+        body_ref.current.scrollTop = props.scrollTop
     }, [ props.scrollTop ])
 
     return (
@@ -28,16 +43,42 @@ const GanttTable = (props: Props) => {
                 flexBasis: props.divisorPosition
             }}
         >
-            <div className="header">
-                TableHeader
+            <div className="header"
+                ref={header_ref}
+            >
+                <div className="tr"
+                    style={{
+                        width: ui_helper.getTableWidth(props.columns)
+                    }}
+                >
+                    {props.columns.map((column: any, i: number) => (
+                        <div key={i} className="th" style={{
+                            width: column.width
+                        }}>
+                            {column.text}
+                        </div>
+                    ))}
+                </div>
             </div>
             <div className="body"
-                ref={el_ref}
-                onScroll={onScroll}
+                ref={body_ref}
+                onScroll={onBodyScroll}
             >
                 {props.items.map((item: any, i: number) => (
-                    <div key={i} className="gantt-row">
-                        {item.text}
+                    <div key={i} className="tr gantt-row"
+                        style={{
+                            width: ui_helper.getTableWidth(props.columns)
+                        }}
+                    >
+                        {props.columns.map((column: any, i: number) => (
+                            <div key={i} className="td"
+                                style={{
+                                    width: column.width
+                                }}
+                            >
+                                {item[column.field]}
+                            </div>
+                        ))}
                     </div>
                 ))}
             </div>

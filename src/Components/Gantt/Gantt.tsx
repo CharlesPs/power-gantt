@@ -5,11 +5,14 @@ import GanttTable from '../GanttTable/GanttTable'
 import GanttChart from '../GanttChart/GanttChart'
 import GanttDivisor from './GanttDivisor'
 
+import UI_helper from '../../Helpers/UI_helper'
+
 import '../../library.css'
 
 type Props = {
     id?: string,
     items: any,
+    columns: any,
     minTableWidthPercent?: number,
     maxTableWidthPercent?: number,
     defTableWidthPorcent?: number,
@@ -20,11 +23,11 @@ const Gantt = (props: Props) => {
     const localPercent = parseFloat(localStorage.getItem(`gantt-${props.id}`) || '0')
 
     const [ state, setState ] = useState({
-        divisorPosition: props.defTableWidthPorcent || localPercent || 40,
+        divisorPosition: localPercent || 40,
         ganttWidth: 0,
         ganttLeft: 0,
         minTableWidthPercent: props.minTableWidthPercent || 20,
-        maxTableWidthPercent: props.maxTableWidthPercent || 20,
+        maxTableWidthPercent: props.maxTableWidthPercent || 50,
         scrollTop: 0,
     })
 
@@ -54,20 +57,37 @@ const Gantt = (props: Props) => {
 
     useEffect(() => {
 
+        const getMaxTablePercent = (max_calculated: number, max_by_setting: number) => {
+
+
+            const max = max_calculated <= max_by_setting ? max_calculated : max_by_setting
+
+            return max
+        }
+
         const getGanttSize = () => {
 
             const ganttElement = ganttElRef.current
+
+            if (!ganttElement) {
+
+                return
+            }
+
+            const table_width = UI_helper.getTableWidth(props.columns)
+            const max_calculated = UI_helper.getPercent(ganttElement.offsetWidth, table_width)
 
             setState({
                 ...state,
                 ganttWidth: ganttElement.offsetWidth,
                 ganttLeft: ganttElement.offsetLeft,
+                maxTableWidthPercent: getMaxTablePercent(max_calculated, state.maxTableWidthPercent)
             })
         }
         getGanttSize()
 
         window.addEventListener('resize', () => getGanttSize())
-    }, [])
+    }, [ ganttElRef.current ])
 
     return (
         <>
@@ -76,6 +96,7 @@ const Gantt = (props: Props) => {
             >
                 <GanttTable
                     items={props.items}
+                    columns={props.columns}
                     divisorPosition={`${state.divisorPosition}%`}
                     onScroll={(top: number) => setState({ ...state, scrollTop: top })}
                     scrollTop={state.scrollTop}
