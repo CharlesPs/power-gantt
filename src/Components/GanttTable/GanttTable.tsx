@@ -16,9 +16,10 @@ const GanttTable = (props: Props) => {
     const header_ref: any = useRef()
     const body_ref: any = useRef()
 
-    const [ state, setState ] = useState({
-        scrollLeft: 0
-    })
+    const onHeaderHorizontalScroll = () => {
+
+        body_ref.current.scrollLeft = header_ref.current.scrollLeft
+    }
 
     const onBodyHorizontalScroll = () => {
 
@@ -44,20 +45,24 @@ const GanttTable = (props: Props) => {
             }}
         >
             <div className="header"
-                ref={header_ref}
             >
-                <div className="tr"
-                    style={{
-                        width: ui_helper.getTableWidth(props.columns)
-                    }}
+                <div className="header-scroll"
+                    ref={header_ref}
+                    onScroll={onHeaderHorizontalScroll}
                 >
-                    {props.columns.map((column: any, i: number) => (
-                        <div key={i} className="th" style={{
-                            width: column.width
-                        }}>
-                            {column.text}
-                        </div>
-                    ))}
+                    <div className="tr"
+                        style={{
+                            width: ui_helper.getTableWidth(props.columns)
+                        }}
+                    >
+                        {props.columns.map((column: any, i: number) => (
+                            <div key={i} className="th" style={{
+                                width: column.width
+                            }}>
+                                {column.text}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
             <div className="body"

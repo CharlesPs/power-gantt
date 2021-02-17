@@ -10,12 +10,20 @@
         border 0 none
         border-bottom: 1px solid var(--border-color)
         box-sizing: border-box
+        height: calc(var(--row-height) * 2);
         overflow: hidden
+
+        .header-scroll
+            height: calc(100% + 17px)
+            margin-right -17px
+            overflow: scroll
+            width calc(100% + 17px)
 
         .tr
             display: flex
             flex-direction: row
             justify-content: start
+            padding-right 17px
 
         .th
             padding 4px
@@ -27,12 +35,14 @@
 
     .body
         height calc(100% - (var(--row-height) * 2))
-        overflow auto
+        margin-right -17px
+        overflow-y scroll
 
         .tr
             display: flex
             flex-direction: row
             justify-content: start
+            padding-right 17px
 
         .td
             padding: 4px
