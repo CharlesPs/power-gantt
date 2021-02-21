@@ -18,7 +18,7 @@ const GanttTable = (props: Props) => {
 
     const onHeaderHorizontalScroll = () => {
 
-        body_ref.current.scrollLeft = header_ref.current.scrollLeft
+        // body_ref.current.scrollLeft = header_ref.current.scrollLeft
     }
 
     const onBodyHorizontalScroll = () => {
