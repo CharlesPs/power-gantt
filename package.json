@@ -51,6 +51,7 @@
     "@types/react-dom": "^17.0.0",
     "autoprefixer-stylus": "^1.0.0",
     "bootstrap": "^4.6.0",
+    "eslint": "^7.20.0",
     "moment": "^2.29.1",
     "react-bootstrap": "^1.4.3",
     "stylus": "^0.54.8"
