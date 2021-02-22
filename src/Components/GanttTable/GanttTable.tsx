@@ -81,7 +81,7 @@ const GanttTable = (props: Props) => {
                                     width: column.width
                                 }}
                             >
-                                {item[column.field]}
+                                {column.render ? column.render(item[column.field]) : item[column.field]}
                             </div>
                         ))}
                     </div>

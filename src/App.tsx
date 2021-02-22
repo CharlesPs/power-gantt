@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 
 import Gantt from './Components/Gantt/Gantt'
 
+import moment from 'moment'
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
@@ -267,8 +269,8 @@ const App = () => {
             { text: 'Pos.', field: 'pos', width: 60},
             { text: 'Título', field: 'title', width: 300},
             { text: 'Días Ej.', field: 'execute_days', width: 70},
-            { text: 'Inicia', field: 'startsAt', width: 100},
-            { text: 'Termina', field: 'endsAt', width: 100},
+            { text: 'Inicia', field: 'startsAt', width: 100, render: (data: any) => moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY') },
+            { text: 'Termina', field: 'endsAt', width: 100, render: (data: any) => moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY')},
             { text: 'Und.', field: 'units', width: 60},
             { text: 'Met.', field: 'metered', width: 60},
             { text: 'Rend.', field: 'performance', width: 60},
