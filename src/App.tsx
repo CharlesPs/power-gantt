@@ -9,6 +9,8 @@ import './App.css'
 const App = () => {
 
     const [ state, setState ] = useState({
+        statusColors: [],
+        codesColors: [],
         ganttItems: [
             {
                 _id: 'item0',
@@ -109,7 +111,7 @@ const App = () => {
                 crewmate: 3,
                 estimated_time: 4,
                 status: 'Completada',
-                color: '#00F0F9',
+                color: '#4e704c',
                 relations: [
                     {
                         type: 'end_to_start',
