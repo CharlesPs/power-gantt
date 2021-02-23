@@ -52,7 +52,7 @@
     "autoprefixer-stylus": "^1.0.0",
     "bootstrap": "^4.6.0",
     "moment": "^2.29.1",
-    "react-bootstrap": "^1.4.3",
+    "react-bootstrap": "^1.5.0",
     "stylus": "^0.54.8"
   },
   "description": "A Gantt table chart for you",
