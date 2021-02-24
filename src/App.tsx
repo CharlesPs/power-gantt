@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Gantt from './Components/Gantt/Gantt'
 
@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
 const App = () => {
+
+    const [ colorsTo, setColorsTo ] = useState('status')
 
     const columns = [
         { text: 'Pos.', field: 'pos', width: 60, show: true },
@@ -21,265 +23,346 @@ const App = () => {
         { text: 'Rend.', field: 'performance', width: 60, show: true },
         { text: 'N. Cuadr.', field: 'crewmate', width: 80, show: true },
         { text: 'T. Estim.', field: 'estimated_time', width: 80, show: true },
-        { text: 'Estado', field: 'status', width: 100, show: true },
+        { text: 'Estado', field: 'status_str', width: 100, show: true },
     ]
+
+    const items: any = [
+        {
+            _id: 'item0',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea 1',
+            execute_days: 2,
+            startsAt: '2021-02-03',
+            endsAt: '2021-02-03',
+            progress: 50,
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'atrasada',
+            code: 'green',
+            relations: [
+                {
+                    type: 'start_to_start',
+                    task_id: 'item1'
+                }
+            ]
+        },
+        {
+            _id: 'item1',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea 1',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-08',
+            progress: 30,
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'pendiente',
+            code: 'red',
+            relations: [
+                {
+                    type: 'end_to_start',
+                    task_id: 'item2'
+                }
+            ]
+        },
+        {
+            _id: 'item2',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea 1',
+            execute_days: 2,
+            startsAt: '2021-02-08',
+            endsAt: '2021-02-15',
+            progress: 70,
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'liberada',
+            code: 'black'
+        },
+        {
+            _id: 'item3',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea 1',
+            execute_days: 2,
+            startsAt: '2021-02-03',
+            endsAt: '2021-02-06',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'completada',
+            code: 'blue',
+            relations: [
+                {
+                    type: 'start_to_start',
+                    task_id: 'item2'
+                }
+            ]
+        },
+        {
+            _id: 'item4',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea 1',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-07',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'activa',
+            colde: 'gray',
+            relations: [
+                {
+                    type: 'end_to_start',
+                    task_id: 'item2'
+                }
+            ]
+        },
+        {
+            // _id: 'item4',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea nueva',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-07',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'activa',
+            colde: 'gray',
+        },
+        {
+            // _id: 'item4',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea nueva',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-07',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'activa',
+            colde: 'gray',
+        },
+        {
+            // _id: 'item4',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea nueva',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-07',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'activa',
+            colde: 'gray',
+        },
+        {
+            // _id: 'item4',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea nueva',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-07',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'activa',
+            colde: 'gray',
+        },
+        {
+            // _id: 'item4',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea nueva',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-07',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'activa',
+            colde: 'gray',
+        },
+        {
+            // _id: 'item4',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea nueva',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-07',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'activa',
+            colde: 'gray',
+        },
+        {
+            // _id: 'item4',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea nueva',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-07',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'activa',
+            colde: 'gray',
+        },
+        {
+            // _id: 'item4',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea nueva',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-07',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'activa',
+            colde: 'gray',
+        },
+        {
+            // _id: 'item4',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea nueva',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-07',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'activa',
+            colde: 'gray',
+        },
+        {
+            // _id: 'item4',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea nueva',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-07',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'activa',
+            colde: 'gray',
+        },
+        {
+            // _id: 'item4',
+            type: 'task',
+            pos: '1',
+            title: 'Tarea nueva',
+            execute_days: 2,
+            startsAt: '2021-02-04',
+            endsAt: '2021-02-07',
+            units: 'Metros',
+            metered: 1,
+            performance: 2,
+            crewmate: 3,
+            estimated_time: 4,
+            status: 'activa',
+            colde: 'gray',
+        },
+    ]
+
+    const statusStrings: any = {
+        atrasada: 'Atrasada',
+        pendiente: 'Pendiente',
+        liberada: 'Liberada',
+        completada: 'Completada',
+        activa: 'Activa',
+        activa_atrasada: 'Activa atrasada',
+    }
+
+    const statusColors: any = {
+        atrasada: '#FF0000',
+        pendiente: '#093763',
+        liberada: '#200ab9',
+        completada: '#B7B7B7',
+        activa: '#34A854',
+        activa_atrasada: '#980001',
+    }
+
+    const codesColors: any = {
+        'red': '#FF0000',
+        'green': '#00FF00',
+        'blue': '#0000FF',
+        'black': '#000000',
+        'gray': '#666666'
+    }
+
+    const getGanttItems = (colorsTo: string) => {
+
+        const ganttItems: any = items.map((item: any) => {
+
+            if (colorsTo === 'status') {
+
+                item.color = statusColors[item.status]
+            } else {
+
+                item.color = codesColors[item.code]
+            }
+
+            item.status_str = statusStrings[item.status]
+
+            return item
+        })
+
+        return ganttItems
+    }
 
     const [ state, setState ] = useState({
         fieldsOpened: false,
         statusColors: [],
         codesColors: [],
-        ganttItems: [
-            {
-                _id: 'item0',
-                type: 'task',
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-03',
-                endsAt: '2021-02-03',
-                progress: 50,
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-                color: '#FF0000',
-                relations: [
-                    {
-                        type: 'start_to_start',
-                        task_id: 'item1'
-                    }
-                ]
-            },
-            {
-                _id: 'item1',
-                type: 'task',
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-04',
-                endsAt: '2021-02-08',
-                progress: 30,
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-                color: '#0000FF',
-                relations: [
-                    {
-                        type: 'end_to_start',
-                        task_id: 'item2'
-                    }
-                ]
-            },
-            {
-                _id: 'item2',
-                type: 'task',
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-08',
-                endsAt: '2021-02-15',
-                progress: 70,
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-                color: '#F000FF'
-            },
-            {
-                _id: 'item3',
-                type: 'task',
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-03',
-                endsAt: '2021-02-06',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-                color: '#7630A0',
-                relations: [
-                    {
-                        type: 'start_to_start',
-                        task_id: 'item2'
-                    }
-                ]
-            },
-            {
-                _id: 'item4',
-                type: 'task',
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-04',
-                endsAt: '2021-02-07',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-                color: '#4e704c',
-                relations: [
-                    {
-                        type: 'end_to_start',
-                        task_id: 'item2'
-                    }
-                ]
-            },
-            {
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-01',
-                endsAt: '2021-02-28',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-            },
-            {
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-01',
-                endsAt: '2021-02-28',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-            },
-            {
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-01',
-                endsAt: '2021-02-28',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-            },
-            {
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-01',
-                endsAt: '2021-02-28',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-            },
-            {
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-01',
-                endsAt: '2021-02-28',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-            },
-            {
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-01',
-                endsAt: '2021-02-28',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-            },
-            {
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-01',
-                endsAt: '2021-02-28',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-            },
-            {
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-01',
-                endsAt: '2021-02-28',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-            },
-            {
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-01',
-                endsAt: '2021-02-28',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-            },
-            {
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-01',
-                endsAt: '2021-02-28',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-            },
-            {
-                pos: '1',
-                title: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-01',
-                endsAt: '2021-02-28',
-                units: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewmate: 3,
-                estimated_time: 4,
-                status: 'Completada',
-            },
-        ],
+        ganttItems: getGanttItems(colorsTo),
         columns,
         ganttColumns: columns,
         ganttStart: '2021-02-01',
@@ -336,6 +419,18 @@ const App = () => {
         })
     }
 
+    const toggleColorsTo = (colorsTo: string) => {
+
+        const ganttItems = getGanttItems(colorsTo)
+
+        setColorsTo(colorsTo)
+
+        setState({
+            ...state,
+            ganttItems
+        })
+    }
+
     return (
         <>
         <div className="navbar navbar-expand navbar-light bg-light">
@@ -353,22 +448,31 @@ const App = () => {
             <div className="container-fluid">
                 <div className="row mb-2 mt-2">
                     <div className="col-12">
-                        <div className="dropdown">
-                            <button
-                                className={`btn btn-light dropdown-toggle ${!state.fieldsOpened ? null : 'show'}`}
-                                onClick={() => setState({ ...state, fieldsOpened: !state.fieldsOpened })}
-                            >
-                                Campos
+
+                        <div className="btn-group">
+                            <div className="dropdown">
+                                <button
+                                    className={`btn btn-light dropdown-toggle ${!state.fieldsOpened ? null : 'show'}`}
+                                    onClick={() => setState({ ...state, fieldsOpened: !state.fieldsOpened })}
+                                >
+                                    Campos
+                                </button>
+                                <ul className={`dropdown-menu ${!state.fieldsOpened ? null : 'show'}`}>
+                                    {state.columns.map((column: any, i: number) => (
+                                        <li key={i}>
+                                            <a className="dropdown-item" href="#" onClick={(e: any) => toggleColumn(e, column)}>
+                                                <i className={`far fa-fw fa-${isChecked(column) ? 'check-square' : 'square'}`}></i> {column.text}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <button className="btn btn-light" onClick={() => toggleColorsTo('status')}>
+                                <i className={`far fa-fw fa-${colorsTo === 'status' ? 'dot-circle' : 'circle'}`}></i> Colores de estado
                             </button>
-                            <ul className={`dropdown-menu ${!state.fieldsOpened ? null : 'show'}`}>
-                                {state.columns.map((column: any, i: number) => (
-                                    <li key={i}>
-                                        <a className="dropdown-item" href="#" onClick={(e: any) => toggleColumn(e, column)}>
-                                            <i className={`far fa-fw fa-${isChecked(column) ? 'check-square' : 'square'}`}></i> {column.text}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
+                            <button className="btn btn-light" onClick={() => toggleColorsTo('codes')}>
+                                <i className={`far fa-fw fa-${colorsTo === 'codes' ? 'dot-circle' : 'circle'}`}></i> Colores de código
+                            </button>
                         </div>
                     </div>
                 </div>
