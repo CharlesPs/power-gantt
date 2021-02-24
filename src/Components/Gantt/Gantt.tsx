@@ -1,8 +1,9 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 
-import GanttTable from '../GanttTable/GanttTable'
-import GanttChart from '../GanttChart/GanttChart'
+import GanttTableRows from '../GanttTable/GanttTableRows'
+import GanttChartHeader from '../GanttChart/GanttChartHeader'
+import GanttChartBody from '../GanttChart/GanttChartBody'
 import GanttDivisor from './GanttDivisor'
 
 import UI_helper from '../../Helpers/UI_helper'
@@ -20,8 +21,12 @@ type Props = {
     minTableWidthPercent?: number,
     maxTableWidthPercent?: number,
     defTableWidthPorcent?: number,
-    dayWidth?: number
+    dayWidth: number
 }
+
+let scrollTop = 0
+let tableScrollLeft = 0
+let chartScrollLeft = 0
 
 const Gantt = (props: Props) => {
 
@@ -43,10 +48,16 @@ const Gantt = (props: Props) => {
         minTableWidthPercent: props.minTableWidthPercent || 20,
         maxTableWidthPercent: props.maxTableWidthPercent || 50,
         dayWidth: props.dayWidth || 32,
-        scrollTop: 0,
+        // scrollTop: 0,
     })
 
     const ganttElRef: any = useRef()
+
+    const tableHeaderRef: any = useRef()
+    const tableBodyRef: any = useRef()
+
+    const chartHeaderRef: any = useRef()
+    const chartBodyRef: any = useRef()
 
     const updateDivisorPosition = (mousePosition: any) => {
 
@@ -104,26 +115,110 @@ const Gantt = (props: Props) => {
         window.addEventListener('resize', () => getGanttSize())
     }, [ ganttElRef.current ])
 
+
+    const onTableBodyScroll = () => {
+
+        const left = tableBodyRef.current.scrollLeft
+        const top = tableBodyRef.current.scrollTop
+
+        if (tableScrollLeft !== left) {
+
+            tableScrollLeft = left
+
+            tableHeaderRef.current.scrollLeft = left
+        }
+
+        if (scrollTop !== top) {
+
+            scrollTop = top
+
+            chartBodyRef.current.scrollTop = top
+        }
+    }
+
+    const onChartBodyScroll = () => {
+
+        const left = chartBodyRef.current.scrollLeft
+        const top = chartBodyRef.current.scrollTop
+
+        if (chartScrollLeft !== left) {
+
+            chartScrollLeft = left
+
+            chartHeaderRef.current.scrollLeft = left
+        }
+
+        if (scrollTop !== top) {
+
+            scrollTop = top
+
+            tableBodyRef.current.scrollTop = top
+        }
+    }
+
     return (
         <>
             <div className="gantt"
                 ref={ganttElRef}
             >
-                <GanttTable
-                    items={props.items}
-                    columns={props.columns}
-                    divisorPosition={`${state.divisorPosition}%`}
-                    onScroll={(top: number) => setState({ ...state, scrollTop: top })}
-                    scrollTop={state.scrollTop}
-                />
-                <GanttChart
-                    start={props.start}
-                    end={props.end}
-                    items={props.items}
-                    onScroll={(top: number) => setState({ ...state, scrollTop: top })}
-                    scrollTop={state.scrollTop}
-                    dayWidth={state.dayWidth}
-                />
+                <div className="gantt-table"
+                    style={{
+                        flexBasis: `${state.divisorPosition}%`
+                    }}
+                >
+                    <div className="header">
+                        <div className="header-scroll"
+                            ref={tableHeaderRef}
+                        >
+                            <div className="tr"
+                                style={{
+                                width: UI_helper.getTableWidth(props.columns)
+                            }}
+                            >
+                                {props.columns.map((column: any, i: number) => (
+                                    <div key={i} className="th" style={{
+                                        width: column.width
+                                    }}>
+                                        {column.text}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="body"
+                        ref={tableBodyRef}
+                        onScroll={(e: any) => onTableBodyScroll()}
+                    >
+                        <GanttTableRows
+                            items={props.items}
+                            columns={props.columns}
+                        />
+                    </div>
+                </div>
+                <div className="gantt-chart">
+                    <div className="header">
+                        <div className="header-scroll"
+                            ref={chartHeaderRef}
+                        >
+                            <GanttChartHeader
+                                start={props.start}
+                                end={props.end}
+                                dayWidth={props.dayWidth}
+                            />
+                        </div>
+                    </div>
+                    <div id="table-body" className="body"
+                        ref={chartBodyRef}
+                        onScroll={(e: any) => onChartBodyScroll()}
+                    >
+                        <GanttChartBody
+                            start={props.start}
+                            end={props.end}
+                            dayWidth={props.dayWidth}
+                            items={props.items}
+                        />
+                    </div>
+                </div>
                 <GanttDivisor
                     divisorPosition={state.divisorPosition}
                     onScroll={(newPosition: any) => updateDivisorPosition(newPosition)}
