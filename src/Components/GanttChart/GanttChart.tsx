@@ -12,6 +12,9 @@ type Props = {
     dayWidth: number,
 }
 
+let scrollTop = 0
+let scrollLeft = 0
+
 const GanttChart = (props: Props) => {
 
     const header_ref: any = useRef()
@@ -19,14 +22,25 @@ const GanttChart = (props: Props) => {
 
     const onBodyScroll = (e: any) => {
 
-        header_ref.current.scrollLeft = body_ref.current.scrollLeft
+        if (body_ref.current.scrollLeft !== scrollLeft) {
 
-        props.onScroll(body_ref.current.scrollTop)
+            scrollLeft = body_ref.current.scrollLeft
+
+            header_ref.current.scrollLeft = body_ref.current.scrollLeft
+        }
+
+        if (body_ref.current.scrollTop !== scrollTop) {
+
+            scrollTop = body_ref.current.scrollTop
+
+            props.onScroll(body_ref.current.scrollTop)
+        }
     }
 
     useEffect(() => {
 
         body_ref.current.scrollTop = props.scrollTop
+
     }, [ props.scrollTop ])
 
     return (

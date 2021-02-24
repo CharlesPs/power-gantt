@@ -11,26 +11,29 @@ type Props = {
     scrollTop: number,
 }
 
+let scrollTop = 0
+let scrollLeft = 0
+
 const GanttTable = (props: Props) => {
 
     const header_ref: any = useRef()
     const body_ref: any = useRef()
 
-    const onHeaderHorizontalScroll = () => {
-
-        // body_ref.current.scrollLeft = header_ref.current.scrollLeft
-    }
-
-    const onBodyHorizontalScroll = () => {
-
-        header_ref.current.scrollLeft = body_ref.current.scrollLeft
-    }
-
     const onBodyScroll = (e: any) => {
 
-        onBodyHorizontalScroll()
+        if (body_ref.current.scrollLeft !== scrollLeft) {
 
-        props.onScroll(body_ref.current.scrollTop)
+            scrollLeft = body_ref.current.scrollLeft
+
+            header_ref.current.scrollLeft = body_ref.current.scrollLeft
+        }
+
+        if (body_ref.current.scrollTop !== scrollTop) {
+
+            scrollTop = body_ref.current.scrollTop
+
+            props.onScroll(body_ref.current.scrollTop)
+        }
     }
 
     useEffect(() => {
@@ -44,11 +47,9 @@ const GanttTable = (props: Props) => {
                 flexBasis: props.divisorPosition
             }}
         >
-            <div className="header"
-            >
+            <div className="header">
                 <div className="header-scroll"
                     ref={header_ref}
-                    onScroll={onHeaderHorizontalScroll}
                 >
                     <div className="tr"
                         style={{
