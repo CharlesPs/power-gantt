@@ -48,7 +48,7 @@ const Column = (props: any) => {
                     )}
                 </>
             )}
-            <span className="content" onClick={() => props.onItemClick(item)}>
+            <span className={`content ${column.field !== 'title' ? '' : 'clickable'}`} onClick={() => props.onItemClick(item)}>
                 {column.render ? column.render(item[column.field]) : item[column.field]}
             </span>
         </div>
