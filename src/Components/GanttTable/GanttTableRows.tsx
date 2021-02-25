@@ -7,6 +7,7 @@ type Props = {
     items: any,
     columns: any,
     onToggleCollapse: any,
+    onItemClick?: any,
 }
 
 const Column = (props: any) => {
@@ -47,7 +48,7 @@ const Column = (props: any) => {
                     )}
                 </>
             )}
-            <span className="content">
+            <span className="content" onClick={() => props.onItemClick(item)}>
                 {column.render ? column.render(item[column.field]) : item[column.field]}
             </span>
         </div>
@@ -69,6 +70,7 @@ const GanttTableRows = (props: Props) => {
                             column={column}
                             item={item}
                             onToggleCollapse={props.onToggleCollapse}
+                            onItemClick={props.onItemClick}
                         />
                     ))}
                 </div>
