@@ -6,6 +6,52 @@ import ui_helper from '../../Helpers/UI_helper'
 type Props = {
     items: any,
     columns: any,
+    onToggleCollapse: any,
+}
+
+const Column = (props: any) => {
+
+    const {
+        column,
+        item,
+    } = props
+
+    const getPadding = () => {
+
+        let left = 4
+
+        if (column.field === 'title') {
+
+            left += item.level * 16
+        }
+
+        return left
+    }
+
+    return (
+        <div className="td"
+            style={{
+                width: column.width,
+                paddingLeft: getPadding()
+            }}
+        >
+            {column.field !== 'title' ? null : (
+                <>
+                    {item.type === 'task' ? <span className="fake-icon"></span> : (
+                        <span
+                            className={`icon ${item.collapseStatus === 'collapsed' ? 'collapsed' : 'expanded'}`}
+                            onClick={() => props.onToggleCollapse(item._id)}
+                        >
+                            ‣
+                        </span>
+                    )}
+                </>
+            )}
+            <span className="content">
+                {column.render ? column.render(item[column.field]) : item[column.field]}
+            </span>
+        </div>
+    )
 }
 
 const GanttTableRows = (props: Props) => {
@@ -19,13 +65,11 @@ const GanttTableRows = (props: Props) => {
                     }}
                 >
                     {props.columns.map((column: any, i: number) => (
-                        <div key={i} className="td"
-                            style={{
-                                width: column.width
-                            }}
-                        >
-                            {column.render ? column.render(item[column.field]) : item[column.field]}
-                        </div>
+                        <Column key={i}
+                            column={column}
+                            item={item}
+                            onToggleCollapse={props.onToggleCollapse}
+                        />
                     ))}
                 </div>
             ))}

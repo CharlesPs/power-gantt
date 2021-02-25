@@ -21,7 +21,8 @@ type Props = {
     minTableWidthPercent?: number,
     maxTableWidthPercent?: number,
     defTableWidthPorcent?: number,
-    dayWidth: number
+    dayWidth: number,
+    onToggleCollapse: any,
 }
 
 let scrollTop = 0
@@ -115,7 +116,6 @@ const Gantt = (props: Props) => {
         window.addEventListener('resize', () => getGanttSize())
     }, [ ganttElRef.current ])
 
-
     const onTableBodyScroll = () => {
 
         const left = tableBodyRef.current.scrollLeft
@@ -192,6 +192,7 @@ const Gantt = (props: Props) => {
                         <GanttTableRows
                             items={props.items}
                             columns={props.columns}
+                            onToggleCollapse={props.onToggleCollapse}
                         />
                     </div>
                 </div>

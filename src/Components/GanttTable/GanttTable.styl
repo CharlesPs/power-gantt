@@ -47,5 +47,30 @@
         .td
             padding: 4px
             display: flex
-            flex-direction: column
+            flex-direction: row
             justify-content: center
+
+            span
+                display: flex
+                flex-direction: column
+                justify-content: center
+
+                &.fake-icon
+                    width 24px
+
+
+                &.icon
+                    cursor pointer
+                    font-family: 'Times New Roman', Times, serif
+                    font-size: 22px
+                    text-align: center
+                    user-select: none
+                    width 24px
+                    transition transform .3s ease
+
+                    &.expanded
+                        transform rotate(90deg)
+
+                &.content
+                    flex 1
+                    padding-left: 4px

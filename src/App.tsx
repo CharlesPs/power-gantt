@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Gantt from './Components/Gantt/Gantt'
 
@@ -16,299 +16,108 @@ const App = () => {
         { text: 'Pos.', field: 'pos', width: 60, show: true },
         { text: 'Título', field: 'title', width: 300, show: true },
         { text: 'Días Ej.', field: 'execute_days', width: 70, show: true },
-        { text: 'Inicia', field: 'startsAt', width: 100, render: (data: any) => moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY'), show: true },
-        { text: 'Termina', field: 'endsAt', width: 100, render: (data: any) => moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY'), show: true },
-        { text: 'Und.', field: 'units', width: 60, show: true },
+        { text: 'Inicia', field: 'startsAt', width: 100, render: (data: any) => !data ? null : moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY'), show: true },
+        { text: 'Termina', field: 'endsAt', width: 100, render: (data: any) => !data ? null : moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY'), show: true },
+        { text: 'Und.', field: 'unit', width: 60, show: true },
         { text: 'Met.', field: 'metered', width: 60, show: true },
         { text: 'Rend.', field: 'performance', width: 60, show: true },
-        { text: 'N. Cuadr.', field: 'crewmate', width: 80, show: true },
-        { text: 'T. Estim.', field: 'estimated_time', width: 80, show: true },
-        { text: 'Estado', field: 'status_str', width: 100, show: true },
+        { text: 'N. Cuadr.', field: 'crew_number', width: 80, show: true },
+        { text: 'T. Estim.', field: 'estimated_days', width: 80, render: (data: any) => !data ? null : `${data} días`, show: true },
+        { text: 'Estado', field: 'status', width: 100, show: true },
     ]
 
     const items: any = [
         {
-            _id: 'item0',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea 1',
-            execute_days: 2,
-            startsAt: '2021-02-03',
-            endsAt: '2021-02-03',
-            progress: 50,
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'atrasada',
-            code: 'green',
-            relations: [
-                {
-                    type: 'start_to_start',
-                    task_id: 'item1'
-                }
-            ]
+            _id: 'itemG1',
+            type: 'group',
+            pos: 1,
+            collapseStatus: 'expanded',
+            group: {
+                _id: 'group1',
+                name: 'Base',
+                items: [
+                    {
+                        _id: 'itemG1T1',
+                        type: 'task',
+                        pos: '1.01',
+                        task: {
+                            _id: 'item0',
+                            name: 'Comprar materiales',
+                            execute_days: 2,
+                            startsAt: '2021-02-03',
+                            endsAt: '2021-02-03',
+                            progress: 50,
+                            unit: 'Metros',
+                            metered: 1,
+                            performance: 2,
+                            crewNumber: 3,
+                            estimatedDays: 4,
+                            status: 'atrasada',
+                            code: 'green',
+                            relations: [
+                                {
+                                    type: 'start_to_start',
+                                    task_id: 'item1'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        _id: 'itemG1G1',
+                        type: 'group',
+                        pos: '1.02',
+                        collapseStatus: 'expanded',
+                        group: {
+                            _id: 'group1.2',
+                            name: 'Pinturas',
+                            items: [
+                                {
+                                    _id: 'itemT1',
+                                    type: 'task',
+                                    pos: '1.02.01',
+                                    task: {
+                                        _id: 'item121',
+                                        name: 'Pintura 1',
+                                        execute_days: 2,
+                                        startsAt: '2021-02-03',
+                                        endsAt: '2021-02-03',
+                                        progress: 50,
+                                        unit: 'Metros',
+                                        metered: 1,
+                                        performance: 2,
+                                        crewNumber: 3,
+                                        estimatedDays: 4,
+                                        status: 'atrasada',
+                                        code: 'green',
+                                        relations: []
+                                    }
+                                },
+                            ]
+                        }
+                    }
+                ],
+            }
         },
         {
-            _id: 'item1',
+            _id: 'itemT1',
             type: 'task',
-            pos: '1',
-            title: 'Tarea 1',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-08',
-            progress: 30,
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'pendiente',
-            code: 'red',
-            relations: [
-                {
-                    type: 'end_to_start',
-                    task_id: 'item2'
-                }
-            ]
-        },
-        {
-            _id: 'item2',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea 1',
-            execute_days: 2,
-            startsAt: '2021-02-08',
-            endsAt: '2021-02-15',
-            progress: 70,
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'liberada',
-            code: 'black'
-        },
-        {
-            _id: 'item3',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea 1',
-            execute_days: 2,
-            startsAt: '2021-02-03',
-            endsAt: '2021-02-06',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'completada',
-            code: 'blue',
-            relations: [
-                {
-                    type: 'start_to_start',
-                    task_id: 'item2'
-                }
-            ]
-        },
-        {
-            _id: 'item4',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea 1',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-07',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'activa',
-            colde: 'gray',
-            relations: [
-                {
-                    type: 'end_to_start',
-                    task_id: 'item2'
-                }
-            ]
-        },
-        {
-            // _id: 'item4',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea nueva',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-07',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'activa',
-            colde: 'gray',
-        },
-        {
-            // _id: 'item4',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea nueva',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-07',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'activa',
-            colde: 'gray',
-        },
-        {
-            // _id: 'item4',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea nueva',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-07',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'activa',
-            colde: 'gray',
-        },
-        {
-            // _id: 'item4',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea nueva',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-07',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'activa',
-            colde: 'gray',
-        },
-        {
-            // _id: 'item4',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea nueva',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-07',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'activa',
-            colde: 'gray',
-        },
-        {
-            // _id: 'item4',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea nueva',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-07',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'activa',
-            colde: 'gray',
-        },
-        {
-            // _id: 'item4',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea nueva',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-07',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'activa',
-            colde: 'gray',
-        },
-        {
-            // _id: 'item4',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea nueva',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-07',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'activa',
-            colde: 'gray',
-        },
-        {
-            // _id: 'item4',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea nueva',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-07',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'activa',
-            colde: 'gray',
-        },
-        {
-            // _id: 'item4',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea nueva',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-07',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'activa',
-            colde: 'gray',
-        },
-        {
-            // _id: 'item4',
-            type: 'task',
-            pos: '1',
-            title: 'Tarea nueva',
-            execute_days: 2,
-            startsAt: '2021-02-04',
-            endsAt: '2021-02-07',
-            units: 'Metros',
-            metered: 1,
-            performance: 2,
-            crewmate: 3,
-            estimated_time: 4,
-            status: 'activa',
-            colde: 'gray',
+            pos: 2,
+            task: {
+                _id: 'item0',
+                name: 'Tarea 1',
+                execute_days: 2,
+                startsAt: '2021-02-03',
+                endsAt: '2021-02-03',
+                progress: 50,
+                unit: 'Metros',
+                metered: 1,
+                performance: 2,
+                crewNumber: 3,
+                estimatedDays: 4,
+                status: 'atrasada',
+                code: 'green',
+                relations: []
+            }
         },
     ]
 
@@ -338,31 +147,140 @@ const App = () => {
         'gray': '#666666'
     }
 
-    const getGanttItems = (colorsTo: string) => {
+    const getTaskItem = (item: any, level: number, colorsTo: string) => {
 
-        const ganttItems: any = items.map((item: any) => {
+        return {
+            _id: item._id,
+            pos: item.pos,
+            level,
+            type: 'task',
+            task_id: item.task._id,
+            title: item.task.name,
+            color: colorsTo === 'status' ? statusColors[item.task.status] : codesColors[item.task.code],
+            status: statusStrings[item.task.status],
+            execute_days: item.task.execute_days,
+            startsAt: item.task.startsAt,
+            endsAt: item.task.endsAt,
+            unit: item.task.unit,
+            metered: item.task.metered,
+            performance: item.task.performance,
+            crew_number: item.task.crewNumber,
+            estimated_days: item.task.estimatedDays,
+        }
+    }
 
-            if (colorsTo === 'status') {
+    const getGroupItem = (item: any, level: number) => {
 
-                item.color = statusColors[item.status]
+        return {
+            _id: item._id,
+            pos: item.pos,
+            level,
+            type: 'group',
+            group_id: item.group._id,
+            collapseStatus: item.collapseStatus,
+            title: item.group.name,
+        }
+    }
+
+    const getGanttItems = (items: any, colorsTo: string) => {
+
+        const ganttItems: any = []
+
+        items.map((itemLevel0: any) => {
+
+            if (itemLevel0.type === 'task') {
+
+                const task = getTaskItem(itemLevel0, 0, colorsTo)
+
+                ganttItems.push(task)
             } else {
 
-                item.color = codesColors[item.code]
+                const group = getGroupItem(itemLevel0, 0)
+
+                ganttItems.push(group)
+
+                if (itemLevel0.collapseStatus === 'collapsed') {
+
+                    return
+                }
+
+                itemLevel0.group.items.map((itemLevel1: any) => {
+
+                    if (itemLevel1.type === 'task') {
+
+                        const task = getTaskItem(itemLevel1, 1, colorsTo)
+
+                        ganttItems.push(task)
+                    } else {
+
+                        const group = getGroupItem(itemLevel1, 1)
+
+                        ganttItems.push(group)
+
+                        if (itemLevel1.collapseStatus === 'collapsed') {
+
+                            return
+                        }
+
+                        itemLevel1.group.items.map((itemLevel2: any) => {
+
+                            if (itemLevel2.type === 'task') {
+
+                                const task = getTaskItem(itemLevel2, 2, colorsTo)
+
+                                ganttItems.push(task)
+                            }
+                        })
+                    }
+                })
             }
-
-            item.status_str = statusStrings[item.status]
-
-            return item
         })
 
         return ganttItems
+    }
+
+    const toggleCollapse = (item_id: any) => {
+
+        const newItems = state.items.map((itemLevel0: any) => {
+
+            if (itemLevel0.type === 'group') {
+
+                if (itemLevel0._id === item_id) {
+
+                    itemLevel0.collapseStatus = itemLevel0.collapseStatus === 'collapsed' ? 'expanded' : 'collapsed'
+                } else {
+
+                    itemLevel0.group.items = itemLevel0.group.items.map((itemLevel1: any) => {
+
+                        if (itemLevel1.type === 'group') {
+
+                            if (itemLevel1._id === item_id) {
+
+                                itemLevel1.collapseStatus = itemLevel1.collapseStatus === 'collapsed' ? 'expanded' : 'collapsed'
+                            }
+                        }
+
+                        return itemLevel1
+                    })
+                }
+            }
+
+            return itemLevel0
+        })
+
+        setState({
+            ...state,
+            items: newItems,
+            ganttItems: getGanttItems(newItems, colorsTo)
+        })
     }
 
     const [ state, setState ] = useState({
         fieldsOpened: false,
         statusColors: [],
         codesColors: [],
-        ganttItems: getGanttItems(colorsTo),
+        items,
+        ganttItems: getGanttItems(items, colorsTo),
         columns,
         ganttColumns: columns,
         ganttStart: '2021-02-01',
@@ -421,7 +339,7 @@ const App = () => {
 
     const toggleColorsTo = (colorsTo: string) => {
 
-        const ganttItems = getGanttItems(colorsTo)
+        const ganttItems = getGanttItems(state.items, colorsTo)
 
         setColorsTo(colorsTo)
 
@@ -487,6 +405,7 @@ const App = () => {
                             minTableWidthPercent={20}
                             maxTableWidthPercent={75}
                             dayWidth={40}
+                            onToggleCollapse={toggleCollapse}
                         />
                     </div>
                 </div>
