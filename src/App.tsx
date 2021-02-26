@@ -406,7 +406,6 @@ const App = () => {
                             maxTableWidthPercent={75}
                             dayWidth={40}
                             onToggleCollapse={toggleCollapse}
-                            onItemClick={(item: any) => console.log({ item })}
                         />
                     </div>
                 </div>

@@ -9,7 +9,7 @@ type Props = {
     items: any,
     columns: any,
     onToggleCollapse: any,
-    onItemClick?: any,
+    onItemClick: any,
 }
 
 const GanttTableRows = (props: Props) => {
@@ -21,13 +21,13 @@ const GanttTableRows = (props: Props) => {
                     style={{
                         width: ui_helper.getTableWidth(props.columns)
                     }}
+                    onClick={() => props.onItemClick(item)}
                 >
                     {props.columns.map((column: any, i: number) => (
                         <GanttTableRowCell key={i}
                             column={column}
                             item={item}
                             onToggleCollapse={props.onToggleCollapse}
-                            onItemClick={props.onItemClick}
                         />
                     ))}
                 </div>

@@ -27,6 +27,16 @@ const GanttTableRowCell = (props: Props) => {
         return left
     }
 
+    const onClick = (e: any) => {
+
+        if (column.onClick) {
+            e.preventDefault()
+            e.stopPropagation()
+
+            column.onClick(item)
+        }
+    }
+
     return (
         <div className="td"
             style={{
@@ -46,7 +56,7 @@ const GanttTableRowCell = (props: Props) => {
                     )}
                 </>
             )}
-            <span className={`content ${column.field !== 'title' ? '' : 'clickable'}`} onClick={() => props.onItemClick(item)}>
+            <span className={`content ${column.field !== 'title' ? '' : 'clickable'}`} onClick={(e: any) => onClick(e)}>
                 {column.render ? column.render(item[column.field]) : item[column.field]}
             </span>
         </div>
