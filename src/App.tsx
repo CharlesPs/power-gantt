@@ -12,115 +12,6 @@ const App = () => {
 
     const [ colorsTo, setColorsTo ] = useState('status')
 
-    const columns = [
-        { text: 'Pos.', field: 'pos', width: 60, show: true },
-        { text: 'Título', field: 'title', width: 300, show: true },
-        { text: 'Días Ej.', field: 'execute_days', width: 70, show: true },
-        { text: 'Inicia', field: 'startsAt', width: 100, render: (data: any) => !data ? null : moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY'), show: true },
-        { text: 'Termina', field: 'endsAt', width: 100, render: (data: any) => !data ? null : moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY'), show: true },
-        { text: 'Und.', field: 'unit', width: 60, show: true },
-        { text: 'Met.', field: 'metered', width: 60, show: true },
-        { text: 'Rend.', field: 'performance', width: 60, show: true },
-        { text: 'N. Cuadr.', field: 'crew_number', width: 80, show: true },
-        { text: 'T. Estim.', field: 'estimated_days', width: 80, render: (data: any) => !data ? null : `${data} días`, show: true },
-        { text: 'Estado', field: 'status', width: 100, show: true },
-    ]
-
-    const items: any = [
-        {
-            _id: 'itemG1',
-            type: 'group',
-            pos: 1,
-            collapseStatus: 'expanded',
-            group: {
-                _id: 'group1',
-                name: 'Base',
-                items: [
-                    {
-                        _id: 'itemG1T1',
-                        type: 'task',
-                        pos: '1.01',
-                        task: {
-                            _id: 'item0',
-                            name: 'Comprar materiales',
-                            execute_days: 2,
-                            startsAt: '2021-02-03',
-                            endsAt: '2021-02-03',
-                            progress: 50,
-                            unit: 'Metros',
-                            metered: 1,
-                            performance: 2,
-                            crewNumber: 3,
-                            estimatedDays: 4,
-                            status: 'atrasada',
-                            code: 'green',
-                            relations: [
-                                {
-                                    type: 'start_to_start',
-                                    task_id: 'item1'
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        _id: 'itemG1G1',
-                        type: 'group',
-                        pos: '1.02',
-                        collapseStatus: 'expanded',
-                        group: {
-                            _id: 'group1.2',
-                            name: 'Pinturas',
-                            items: [
-                                {
-                                    _id: 'itemT1',
-                                    type: 'task',
-                                    pos: '1.02.01',
-                                    task: {
-                                        _id: 'item121',
-                                        name: 'Pintura 1',
-                                        execute_days: 2,
-                                        startsAt: '2021-02-03',
-                                        endsAt: '2021-02-03',
-                                        progress: 50,
-                                        unit: 'Metros',
-                                        metered: 1,
-                                        performance: 2,
-                                        crewNumber: 3,
-                                        estimatedDays: 4,
-                                        status: 'atrasada',
-                                        code: 'green',
-                                        relations: []
-                                    }
-                                },
-                            ]
-                        }
-                    }
-                ],
-            }
-        },
-        {
-            _id: 'itemT1',
-            type: 'task',
-            pos: 2,
-            task: {
-                _id: 'item0',
-                name: 'Tarea 1',
-                execute_days: 2,
-                startsAt: '2021-02-03',
-                endsAt: '2021-02-03',
-                progress: 50,
-                unit: 'Metros',
-                metered: 1,
-                performance: 2,
-                crewNumber: 3,
-                estimatedDays: 4,
-                status: 'atrasada',
-                code: 'green',
-                relations: []
-            }
-        },
-    ]
-
     const statusStrings: any = {
         atrasada: 'Atrasada',
         pendiente: 'Pendiente',
@@ -275,6 +166,115 @@ const App = () => {
         })
     }
 
+    const items: any = [
+        {
+            _id: 'itemG1',
+            type: 'group',
+            pos: 1,
+            collapseStatus: 'expanded',
+            group: {
+                _id: 'group1',
+                name: 'Base',
+                items: [
+                    {
+                        _id: 'itemG1T1',
+                        type: 'task',
+                        pos: '1.01',
+                        task: {
+                            _id: 'item0',
+                            name: 'Comprar materiales',
+                            execute_days: 2,
+                            startsAt: '2021-02-03',
+                            endsAt: '2021-02-03',
+                            progress: 50,
+                            unit: 'Metros',
+                            metered: 1,
+                            performance: 2,
+                            crewNumber: 3,
+                            estimatedDays: 4,
+                            status: 'atrasada',
+                            code: 'green',
+                            relations: [
+                                {
+                                    type: 'start_to_start',
+                                    task_id: 'item1'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        _id: 'itemG1G1',
+                        type: 'group',
+                        pos: '1.02',
+                        collapseStatus: 'expanded',
+                        group: {
+                            _id: 'group1.2',
+                            name: 'Pinturas',
+                            items: [
+                                {
+                                    _id: 'itemT1',
+                                    type: 'task',
+                                    pos: '1.02.01',
+                                    task: {
+                                        _id: 'item121',
+                                        name: 'Pintura 1',
+                                        execute_days: 2,
+                                        startsAt: '2021-02-03',
+                                        endsAt: '2021-02-03',
+                                        progress: 50,
+                                        unit: 'Metros',
+                                        metered: 1,
+                                        performance: 2,
+                                        crewNumber: 3,
+                                        estimatedDays: 4,
+                                        status: 'atrasada',
+                                        code: 'green',
+                                        relations: []
+                                    }
+                                },
+                            ]
+                        }
+                    }
+                ],
+            }
+        },
+        {
+            _id: 'itemT1',
+            type: 'task',
+            pos: 2,
+            task: {
+                _id: 'item0',
+                name: 'Tarea 1',
+                execute_days: 2,
+                startsAt: '2021-02-03',
+                endsAt: '2021-02-03',
+                progress: 50,
+                unit: 'Metros',
+                metered: 1,
+                performance: 2,
+                crewNumber: 3,
+                estimatedDays: 4,
+                status: 'atrasada',
+                code: 'green',
+                relations: []
+            }
+        },
+    ]
+
+    const columns = [
+        { text: 'Pos.', field: 'pos', width: 60, show: true },
+        { text: 'Título', field: 'title', width: 300, show: true },
+        { text: 'Días Ej.', field: 'execute_days', width: 70, show: true },
+        { text: 'Inicia', field: 'startsAt', width: 100, render: (data: any) => !data ? null : moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY'), show: true },
+        { text: 'Termina', field: 'endsAt', width: 100, render: (data: any) => !data ? null : moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY'), show: true },
+        { text: 'Und.', field: 'unit', width: 60, show: true },
+        { text: 'Met.', field: 'metered', width: 60, show: true },
+        { text: 'Rend.', field: 'performance', width: 60, show: true },
+        { text: 'N. Cuadr.', field: 'crew_number', width: 80, show: true },
+        { text: 'T. Estim.', field: 'estimated_days', width: 80, render: (data: any) => !data ? null : `${data} días`, show: true },
+        { text: 'Estado', field: 'status', width: 100, show: true },
+    ]
+
     const [ state, setState ] = useState({
         fieldsOpened: false,
         statusColors: [],
@@ -351,18 +351,18 @@ const App = () => {
 
     return (
         <>
-        <div className="navbar navbar-expand navbar-light bg-light">
-            <div className="container-fluid">
-                <a href="/" className="navbar-brand">Gantt</a>
-                <div className="collapse navbar-collapse">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <a href="/" className="nav-link active">Home</a>
-                        </li>
-                    </ul>
+            <div className="navbar navbar-expand navbar-light bg-light">
+                <div className="container-fluid">
+                    <a href="/" className="navbar-brand">Gantt</a>
+                    <div className="collapse navbar-collapse">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li className="nav-item">
+                                <a href="/" className="nav-link active">Home</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
             <div className="container-fluid">
                 <div className="row mb-2 mt-2">
                     <div className="col-12">
