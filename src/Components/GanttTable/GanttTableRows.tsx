@@ -3,56 +3,13 @@ import React from 'react'
 
 import ui_helper from '../../Helpers/UI_helper'
 
+import GanttTableRowCell from './GanttTableRowCell'
+
 type Props = {
     items: any,
     columns: any,
     onToggleCollapse: any,
     onItemClick?: any,
-}
-
-const Column = (props: any) => {
-
-    const {
-        column,
-        item,
-    } = props
-
-    const getPadding = () => {
-
-        let left = 4
-
-        if (column.field === 'title') {
-
-            left += item.level * 16
-        }
-
-        return left
-    }
-
-    return (
-        <div className="td"
-            style={{
-                width: column.width,
-                paddingLeft: getPadding()
-            }}
-        >
-            {column.field !== 'title' ? null : (
-                <>
-                    {item.type === 'task' ? <span className="fake-icon"></span> : (
-                        <span
-                            className={`icon ${item.collapseStatus === 'collapsed' ? 'collapsed' : 'expanded'}`}
-                            onClick={() => props.onToggleCollapse(item._id)}
-                        >
-                            ‣
-                        </span>
-                    )}
-                </>
-            )}
-            <span className={`content ${column.field !== 'title' ? '' : 'clickable'}`} onClick={() => props.onItemClick(item)}>
-                {column.render ? column.render(item[column.field]) : item[column.field]}
-            </span>
-        </div>
-    )
 }
 
 const GanttTableRows = (props: Props) => {
@@ -66,7 +23,7 @@ const GanttTableRows = (props: Props) => {
                     }}
                 >
                     {props.columns.map((column: any, i: number) => (
-                        <Column key={i}
+                        <GanttTableRowCell key={i}
                             column={column}
                             item={item}
                             onToggleCollapse={props.onToggleCollapse}
