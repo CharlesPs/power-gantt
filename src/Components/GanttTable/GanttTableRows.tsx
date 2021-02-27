@@ -10,6 +10,7 @@ type Props = {
     columns: any,
     onToggleCollapse: any,
     onItemClick: any,
+    onItemEdit?: any,
 }
 
 const GanttTableRows = (props: Props) => {
@@ -28,6 +29,7 @@ const GanttTableRows = (props: Props) => {
                             column={column}
                             item={item}
                             onToggleCollapse={props.onToggleCollapse}
+                            onItemEdit={props.onItemEdit}
                         />
                     ))}
                 </div>

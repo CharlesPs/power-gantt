@@ -23,6 +23,7 @@ type Props = {
     defTableWidthPorcent?: number,
     dayWidth: number,
     onToggleCollapse: any,
+    onItemEdit?: any,
 }
 
 let scrollTop = 0
@@ -201,6 +202,7 @@ const Gantt = (props: Props) => {
                             columns={props.columns}
                             onToggleCollapse={props.onToggleCollapse}
                             onItemClick={onItemClick}
+                            onItemEdit={props.onItemEdit}
                         />
                     </div>
                 </div>

@@ -166,6 +166,11 @@ const App = () => {
         })
     }
 
+    const onItemEdit = (item: any) => {
+
+        console.log('onItemEdit', item)
+    }
+
     const items: any = [
         {
             _id: 'itemG1',
@@ -263,7 +268,14 @@ const App = () => {
 
     const columns = [
         { text: 'Pos.', field: 'pos', width: 60, show: true },
-        { text: 'Título', field: 'title', width: 300, show: true },
+        {
+            text: 'Título',
+            field: 'title',
+            width: 300,
+            onClick: (item: any) => console.log('onItemClick', { item }),
+            editable: true,
+            show: true
+        },
         { text: 'Días Ej.', field: 'execute_days', width: 70, show: true },
         { text: 'Inicia', field: 'startsAt', width: 100, render: (data: any) => !data ? null : moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY'), show: true },
         { text: 'Termina', field: 'endsAt', width: 100, render: (data: any) => !data ? null : moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY'), show: true },
@@ -406,6 +418,7 @@ const App = () => {
                             maxTableWidthPercent={75}
                             dayWidth={40}
                             onToggleCollapse={toggleCollapse}
+                            onItemEdit={onItemEdit}
                         />
                     </div>
                 </div>

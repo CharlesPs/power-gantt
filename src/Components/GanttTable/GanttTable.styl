@@ -48,7 +48,7 @@
             padding: 4px
             display: flex
             flex-direction: row
-            justify-content: center
+            justify-content: flex-start
 
             span
                 display: flex
@@ -75,5 +75,13 @@
                     flex 1
                     padding-left: 4px
 
-                    &.clickable
+                    &.editable
                         cursor pointer
+                        flex none
+                        padding-right: 4px
+                        text-decoration: underline
+                        text-decoration-style: dotted
+                        user-select: none
+
+            input[type="text"]
+                flex 1
