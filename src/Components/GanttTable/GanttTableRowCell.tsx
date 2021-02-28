@@ -76,6 +76,17 @@ const GanttTableRowCell = (props: Props) => {
         }
     }
 
+    const handleBlur = () => {
+
+        if (cell === item[column.field]) {
+
+            setEditing(false)
+            return
+        }
+
+        updateCell()
+    }
+
     const updateCell = () => {
 
         item[column.field] = cell
@@ -132,7 +143,7 @@ const GanttTableRowCell = (props: Props) => {
                     value={cell}
                     onChange={(e: any) => setCell(e.currentTarget.value)}
                     onKeyUp={(e: any) => checkEnterOrEscape(e)}
-                    onBlur={() => updateCell()}
+                    onBlur={() => handleBlur()}
                     onClick={(e: any) => e.stopPropagation()}
                 />
             )}
