@@ -1,16 +1,23 @@
 
 .gantt-divisor
-    background-color: #e0e0e0
     cursor col-resize
-    display: flex
-    flex-direction: column
-    justify-content: center
     order 1
+    margin 0 -8px
+    padding 0 8px
     user-select: none
     z-index: 9;
 
     &:hover
-        background-color: #e3165b
+
+        .divisor-bar
+            background-color: #e3165b
+
+    .divisor-bar
+        background-color: #e0e0e0
+        display: flex
+        flex-direction: column
+        height 100%
+        justify-content: center
 
     .divisor-dots
         background-color: white

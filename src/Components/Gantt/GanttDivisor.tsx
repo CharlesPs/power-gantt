@@ -28,6 +28,16 @@ const GanttDivisor = (props: Props) => {
         }
     }
 
+    const onTouchMove = (e: any) => {
+        // e.preventDefault()
+        // e.stop
+
+        if (state.dragging) {
+
+            props.onScroll(e.targetTouches[0].pageX)
+        }
+    }
+
     const onMouseUp = () => {
 
         setState({
@@ -44,15 +54,23 @@ const GanttDivisor = (props: Props) => {
                 }}
                 onMouseMove={(e: any) => onMouseMove(e)}
                 onMouseUp={(e: any) => onMouseUp()}
+                onTouchMove={onTouchMove}
+                onTouchEnd={(e: any) => onMouseUp()}
             ></div>
             <div className="gantt-divisor"
                 onMouseDown={(e: any) => onMouseDown()}
                 onMouseUp={(e: any) => onMouseUp()}
+                onTouchStart={(e: any) => onMouseDown()}
+                onTouchMove={onTouchMove}
+                onTouchEnd={(e: any) => onMouseUp()}
+                onContextMenu={(e: any) => e.preventDefault()}
             >
-                <div className="divisor-dots">
-                    <div className="divisor-dot"></div>
-                    <div className="divisor-dot"></div>
-                    <div className="divisor-dot"></div>
+                <div className="divisor-bar">
+                    <div className="divisor-dots">
+                        <div className="divisor-dot"></div>
+                        <div className="divisor-dot"></div>
+                        <div className="divisor-dot"></div>
+                    </div>
                 </div>
             </div>
         </>
