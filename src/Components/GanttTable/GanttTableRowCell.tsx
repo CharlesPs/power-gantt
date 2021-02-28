@@ -91,7 +91,7 @@ const GanttTableRowCell = (props: Props) => {
 
         item[column.field] = cell
 
-        props.onItemEdit(item)
+        props.onItemEdit(item, column.field)
         setEditing(false)
     }
 

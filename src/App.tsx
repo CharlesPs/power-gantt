@@ -166,9 +166,9 @@ const App = () => {
         })
     }
 
-    const onItemEdit = (item: any) => {
+    const onItemEdit = (item: any, field: string) => {
 
-        console.log('onItemEdit', item)
+        console.log('onItemEdit', field, item)
     }
 
     const items: any = [
