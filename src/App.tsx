@@ -197,7 +197,7 @@ const App = () => {
                             performance: 2,
                             crewNumber: 3,
                             estimatedDays: 4,
-                            status: 'atrasada',
+                            status: 'pendiente',
                             code: 'green',
                             relations: [
                                 {
@@ -232,7 +232,7 @@ const App = () => {
                                         performance: 2,
                                         crewNumber: 3,
                                         estimatedDays: 4,
-                                        status: 'atrasada',
+                                        status: 'completada',
                                         code: 'green',
                                         relations: []
                                     }
