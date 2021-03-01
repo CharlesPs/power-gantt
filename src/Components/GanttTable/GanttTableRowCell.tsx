@@ -20,6 +20,7 @@ const GanttTableRowCell = (props: Props) => {
 
     const [ editing, setEditing ] = useState(false)
     const [ cell, setCell ] = useState('')
+    const [ writing, setWriting ] = useState(false)
 
     useEffect(() => {
 
@@ -106,7 +107,22 @@ const GanttTableRowCell = (props: Props) => {
         setEditing(false)
     }
 
-    const checkEnterOrEscape = (e: any) => {
+    const onChange = (e: any) => {
+
+        if (writing) {
+
+            setCell(e.currentTarget.value)
+        }
+    }
+
+    const onKeyDown = () => {
+
+        setWriting(true)
+    }
+
+    const onKeyUp = (e: any) => {
+
+        setWriting(false)
 
         if (e.keyCode === 13) {
 
@@ -146,8 +162,9 @@ const GanttTableRowCell = (props: Props) => {
                     className="content"
                     type="text"
                     value={cell}
-                    onChange={(e: any) => setCell(e.currentTarget.value)}
-                    onKeyUp={(e: any) => checkEnterOrEscape(e)}
+                    onChange={onChange}
+                    onKeyDown={onKeyDown}
+                    onKeyUp={onKeyUp}
                     onBlur={() => handleBlur()}
                     onClick={(e: any) => e.stopPropagation()}
                 />
