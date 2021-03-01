@@ -10,8 +10,8 @@
   "scripts": {
     "ts": "tsc --project ./tsconfig.library.json && yarn cp-files",
     "cp-files": "cp './src/library.css' ./lib/",
-    "css": "stylus -c -u  autoprefixer-stylus -m ./src/library.styl ./src/library.css",
-    "start": "react-scripts start",
+    "css": "stylus -w -c src/library.styl",
+    "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
