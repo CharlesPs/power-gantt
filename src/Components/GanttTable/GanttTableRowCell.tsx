@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 type Props = {
     column: any,
@@ -19,7 +19,12 @@ const GanttTableRowCell = (props: Props) => {
     } = props
 
     const [ editing, setEditing ] = useState(false)
-    const [ cell, setCell ] = useState(item[column.field])
+    const [ cell, setCell ] = useState('')
+
+    useEffect(() => {
+
+        setCell(item[column.field])
+    }, [ item ])
 
     const item_back = JSON.parse(JSON.stringify(item))
 
@@ -133,7 +138,7 @@ const GanttTableRowCell = (props: Props) => {
             )}
             {!editing ? (
                 <span className={`content ${!column.editable ? '' : 'editable'}`} onClick={(e: any) => handleClick(e)}>
-                    {column.render ? column.render(item[column.field]) : item[column.field]}
+                    {column.render ? column.render(cell) : cell}
                 </span>
             ): (
                 <input
