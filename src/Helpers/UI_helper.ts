@@ -117,7 +117,7 @@ export const getRelations = (items: any) => {
 
         if (item.type === 'task') {
 
-            obj_items[item._id] = { item, i }
+            obj_items[item.task_id] = { item, i }
         }
     })
 
@@ -162,6 +162,91 @@ export const getRelations = (items: any) => {
     return relations
 }
 
+export const getGroupDuration = (items: any) => {
+
+    let startsAt: any
+    let endsAt: any
+
+    items.map((item0: any) => {
+
+        if (item0.type === 'task') {
+
+            if (!startsAt) {
+
+                startsAt = item0.task.startsAt
+            } else {
+
+                if (moment(item0.task.startsAt).isBefore(startsAt)) {
+
+                    startsAt = item0.task.startsAt
+                }
+            }
+
+            if (!endsAt) {
+
+                endsAt = item0.task.endsAt
+            } else {
+
+                if (moment(item0.task.endsAt).isAfter(endsAt)) {
+
+                    endsAt = item0.task.endsAt
+                }
+            }
+        } else {
+
+            item0.group.items.map((item1: any) => {
+
+                if (item1.type === 'task') {
+
+                    if (!startsAt) {
+
+                        startsAt = item1.task.startsAt
+                    } else {
+
+                        if (moment(item1.task.startsAt).isBefore(startsAt)) {
+
+                            startsAt = item1.task.startsAt
+                        }
+                    }
+
+                    if (!endsAt) {
+
+                        endsAt = item1.task.endsAt
+                    } else {
+
+                        if (moment(item1.task.endsAt).isAfter(endsAt)) {
+
+                            endsAt = item1.task.endsAt
+                        }
+                    }
+                }
+            })
+        }
+    })
+
+    return { startsAt, endsAt }
+}
+
+export const getGroupBars = (items: any) => {
+
+    const bars: any = []
+
+    items.map((item0: any) => {
+
+        if (item0.type === 'task') {
+
+            bars.push({
+                startsAt: item0.task.startsAt,
+                endsAt: item0.task.startsAt,
+                status: item0.task.status,
+                code: item0.task.code,
+            })
+        }
+    })
+
+    return bars
+}
+
 export default {
     getTableWidth,
     getDaysInRange,
@@ -169,4 +254,6 @@ export default {
     getDayPosition,
     getDaysLength,
     getRelations,
+    getGroupDuration,
+    getGroupBars,
 }

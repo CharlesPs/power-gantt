@@ -7,6 +7,7 @@ import moment from 'moment'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
+import UI_helper from './Helpers/UI_helper';
 
 const App = () => {
 
@@ -52,15 +53,20 @@ const App = () => {
             execute_days: item.task.execute_days,
             startsAt: item.task.startsAt,
             endsAt: item.task.endsAt,
+            progress: item.task.progress,
             unit: item.task.unit,
             metered: item.task.metered,
             performance: item.task.performance,
             crew_number: item.task.crewNumber,
             estimated_days: item.task.estimatedDays,
+            relations: item.task.relations
         }
     }
 
-    const getGroupItem = (item: any, level: number) => {
+    const getGroupItem = (item: any, level: number, colorsTo: string) => {
+
+        const duration = UI_helper.getGroupDuration(item.group.items)
+        const bars = UI_helper.getGroupBars(item.group.items)
 
         return {
             _id: item._id,
@@ -70,6 +76,14 @@ const App = () => {
             group_id: item.group._id,
             collapseStatus: item.collapseStatus,
             title: item.group.name,
+            startsAt: duration.startsAt,
+            endsAt: duration.endsAt,
+            bars: bars.map((bar: any) => {
+
+                bar.color = colorsTo === 'status' ? statusColors[bar.status] : codesColors[bar.code]
+
+                return bar
+            }),
         }
     }
 
@@ -86,7 +100,7 @@ const App = () => {
                 ganttItems.push(task)
             } else {
 
-                const group = getGroupItem(itemLevel0, 0)
+                const group = getGroupItem(itemLevel0, 0, colorsTo)
 
                 ganttItems.push(group)
 
@@ -104,7 +118,7 @@ const App = () => {
                         ganttItems.push(task)
                     } else {
 
-                        const group = getGroupItem(itemLevel1, 1)
+                        const group = getGroupItem(itemLevel1, 1, colorsTo)
 
                         ganttItems.push(group)
 
@@ -189,8 +203,8 @@ const App = () => {
                             _id: 'item0',
                             name: 'Comprar materiales',
                             execute_days: 2,
-                            startsAt: '2021-02-22',
-                            endsAt: '2021-02-27',
+                            startsAt: '2021-02-01',
+                            endsAt: '2021-02-03',
                             progress: 50,
                             unit: 'Metros',
                             metered: 1,
@@ -201,8 +215,34 @@ const App = () => {
                             code: 'green',
                             relations: [
                                 {
-                                    type: 'start_to_start',
-                                    task_id: 'item1'
+                                    type: 'end_to_start',
+                                    task_id: 'itemasd'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        _id: 'itemG1T2',
+                        type: 'task',
+                        pos: '1.02',
+                        task: {
+                            _id: 'itemasd',
+                            name: 'Comprar materiales',
+                            execute_days: 2,
+                            startsAt: '2021-02-05',
+                            endsAt: '2021-02-06',
+                            progress: 50,
+                            unit: 'Metros',
+                            metered: 1,
+                            performance: 2,
+                            crewNumber: 3,
+                            estimatedDays: 4,
+                            status: 'pendiente',
+                            code: 'green',
+                            relations: [
+                                {
+                                    type: 'end_to_start',
+                                    task_id: 'item121'
                                 }
                             ]
                         }
@@ -224,8 +264,8 @@ const App = () => {
                                         _id: 'item121',
                                         name: 'Pintura 1',
                                         execute_days: 2,
-                                        startsAt: '2021-02-03',
-                                        endsAt: '2021-02-03',
+                                        startsAt: '2021-02-08',
+                                        endsAt: '2021-02-09',
                                         progress: 50,
                                         unit: 'Metros',
                                         metered: 1,
@@ -234,7 +274,38 @@ const App = () => {
                                         estimatedDays: 4,
                                         status: 'completada',
                                         code: 'green',
-                                        relations: []
+                                        relations: [
+                                            {
+                                                type: 'end_to_start',
+                                                task_id: 'item122'
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    _id: 'itemT1',
+                                    type: 'task',
+                                    pos: '1.02.01',
+                                    task: {
+                                        _id: 'item122',
+                                        name: 'Pintura 1',
+                                        execute_days: 2,
+                                        startsAt: '2021-02-10',
+                                        endsAt: '2021-02-12',
+                                        progress: 50,
+                                        unit: 'Metros',
+                                        metered: 1,
+                                        performance: 2,
+                                        crewNumber: 3,
+                                        estimatedDays: 4,
+                                        status: 'completada',
+                                        code: 'green',
+                                        relations: [
+                                            {
+                                                type: 'end_to_start',
+                                                task_id: 'item1'
+                                            }
+                                        ]
                                     }
                                 },
                             ]
@@ -244,15 +315,15 @@ const App = () => {
             }
         },
         {
-            _id: 'itemT1',
+            _id: 'itemT2',
             type: 'task',
             pos: 2,
             task: {
-                _id: 'item0',
+                _id: 'item1',
                 name: 'Tarea 1',
                 execute_days: 2,
-                startsAt: '2021-02-03',
-                endsAt: '2021-02-03',
+                startsAt: '2021-02-13',
+                endsAt: '2021-02-15',
                 progress: 50,
                 unit: 'Metros',
                 metered: 1,
@@ -365,7 +436,7 @@ const App = () => {
         <>
             <div className="navbar navbar-expand navbar-light bg-light">
                 <div className="container-fluid">
-                    <a href="/" className="navbar-brand">Gantt</a>
+                    <a href="/" className="navbar-brand">Power Gantt</a>
                     <div className="collapse navbar-collapse">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
@@ -375,8 +446,8 @@ const App = () => {
                     </div>
                 </div>
             </div>
-            <div className="container-fluid">
-                <div className="row mb-2 mt-2">
+            <div className="container-fluid mt-2">
+                {/* <div className="row mb-2 mt-2">
                     <div className="col-12">
 
                         <div className="btn-group">
@@ -405,7 +476,7 @@ const App = () => {
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="row">
                     <div className="col-12">
                         <Gantt
