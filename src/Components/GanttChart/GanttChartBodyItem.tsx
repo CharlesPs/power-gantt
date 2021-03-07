@@ -15,6 +15,15 @@ const GanttChartBodyItem = (props: Props) => {
 
     const text_ref: any = useRef()
 
+    if (props.item.collapseStatus === 'collapsed') {
+
+        props.item.bars.map((bar: any) => {
+
+            bar.x = UI_helper.getDayPosition(props.ganttStart, bar.startsAt) * props.dayWidth
+            bar.w = UI_helper.getDaysLength(bar.startsAt, bar.endsAt) * props.dayWidth
+        })
+    }
+
     const x = UI_helper.getDayPosition(props.ganttStart, props.item.startsAt) * props.dayWidth
 
     let text_x = x
@@ -27,59 +36,83 @@ const GanttChartBodyItem = (props: Props) => {
 
     useEffect(() => {
 
-        const text_w = text_ref.current.getBBox().width
+        const updateTextLeft = () => {
 
-        if (text_w >= (w - 8)) {
+            const text_w = text_ref.current.getBBox().width
 
-            text_ref.current.classList.add('dark')
+            if (text_w >= (w - 8)) {
 
-            text_x = x + w
+                text_ref.current.classList.add('dark')
 
-            if (text_x + text_w >= props.ganttWidth) {
+                text_x = x + w
 
-                text_x = x - text_w - 4
+                if (text_x + text_w >= props.ganttWidth) {
+
+                    text_x = x - text_w - 4
+                }
+
+                text_ref.current.setAttribute('x', text_x)
             }
+        }
 
-            text_ref.current.setAttribute('x', text_x)
+        if (text_ref.current) {
+
+            updateTextLeft()
         }
     }, [ text_ref.current ])
-
 
     return (
         <g className="gantt-chart-item">
             <g className="gantt-chart-item-bar">
-                <rect
-                    className="grid-row-item"
-                    fill="#FFFFFFB0"
-                    x={x + 4}
-                    y={(props.y * 32) + 6}
-                    height={20}
-                    width={w - 8}
-                ></rect>
-                <rect
-                    className="grid-row-item"
-                    fill={`${color}90`}
-                    x={x + 4}
-                    y={(props.y * 32) + 6}
-                    height={20}
-                    width={w - 8}
-                ></rect>
-                <rect
-                    className="grid-row-item-progress"
-                    fill={color}
-                    x={x + 5}
-                    y={(props.y * 32) + 7}
-                    height={18}
-                    width={progress || 3}
-                ></rect>
-                <text
-                    ref={text_ref}
-                    className="grid-row-item-text"
-                    x={text_x + 8}
-                    y={(props.y * 32) + 21}
-                >
-                    {`${props.item.title} (${props.item.progress || 0}%)`}
-                </text>
+                {props.item.collapseStatus === 'collapsed' ? (
+                    <>
+                        {props.item.bars.map((bar: any, i: number) => (
+                            <rect key={i}
+                                className="grid-row-item"
+                                fill={bar.color}
+                                x={bar.x + 4}
+                                y={(props.y * 32) + 6}
+                                height={20}
+                                width={bar.w - 8}
+                            ></rect>
+                        ))}
+                    </>
+                ) : (
+                    <>
+                        <rect
+                            className="grid-row-item"
+                            fill="#FFFFFFB0"
+                            x={x + 4}
+                            y={(props.y * 32) + 6}
+                            height={20}
+                            width={w - 8}
+                        ></rect>
+                        <rect
+                            className="grid-row-item"
+                            fill={`${color}90`}
+                            x={x + 4}
+                            y={(props.y * 32) + 6}
+                            height={20}
+                            width={w - 8}
+                        ></rect>
+                        <rect
+                            className="grid-row-item-progress"
+                            fill={color}
+                            x={x + 5}
+                            y={(props.y * 32) + 7}
+                            height={18}
+                            width={progress || 3}
+                        ></rect>
+                        <text
+                            ref={text_ref}
+                            className="grid-row-item-text"
+                            x={text_x + 8}
+                            y={(props.y * 32) + 21}
+                        >
+                            {`${props.item.title} (${props.item.progress || 0}%)`}
+                        </text>
+                    </>
+                )}
             </g>
             <g className="gantt-chart-item-controls">
             </g>

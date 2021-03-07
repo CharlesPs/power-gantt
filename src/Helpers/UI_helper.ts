@@ -1,3 +1,6 @@
+/*eslint
+array-callback-return: "off"
+*/
 
 import moment from 'moment'
 
@@ -237,9 +240,23 @@ export const getGroupBars = (items: any) => {
 
             bars.push({
                 startsAt: item0.task.startsAt,
-                endsAt: item0.task.startsAt,
+                endsAt: item0.task.endsAt,
                 status: item0.task.status,
                 code: item0.task.code,
+            })
+        } else {
+
+            item0.group.items.map((item1: any) => {
+
+                if (item1.type === 'task') {
+
+                    bars.push({
+                        startsAt: item1.task.startsAt,
+                        endsAt: item1.task.endsAt,
+                        status: item1.task.status,
+                        code: item1.task.code,
+                    })
+                        }
             })
         }
     })
