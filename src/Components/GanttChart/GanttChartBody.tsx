@@ -37,7 +37,7 @@ const GanttChartBody = (props: Props) => {
                 ganttStart={props.start}
             />
             {props.items.map((item: any, i: number) => (
-                <GanttChartBodyItem key={i}
+                <GanttChartBodyItem key={item.task_id || item.group_id}
                     y={i}
                     ganttStart={props.start}
                     item={item}
