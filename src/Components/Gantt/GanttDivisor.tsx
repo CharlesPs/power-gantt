@@ -29,8 +29,6 @@ const GanttDivisor = (props: Props) => {
     }
 
     const onTouchMove = (e: any) => {
-        // e.preventDefault()
-        // e.stop
 
         if (state.dragging) {
 
