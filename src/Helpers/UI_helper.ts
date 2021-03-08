@@ -256,8 +256,7 @@ export const getGroupBars = (items: any) => {
                 task_id: item0.task._id,
                 startsAt: item0.task.startsAt,
                 endsAt: item0.task.endsAt,
-                status: item0.task.status,
-                code: item0.task.code,
+                color: item0.color,
                 progress: item0.task.progress,
                 relations: item0.task.relations,
             })
@@ -271,12 +270,11 @@ export const getGroupBars = (items: any) => {
                         task_id: item1.task._id,
                         startsAt: item1.task.startsAt,
                         endsAt: item1.task.endsAt,
-                        status: item1.task.status,
-                        code: item1.task.code,
+                        color: item1.color,
                         progress: item1.task.progress,
                         relations: item1.task.relations,
                     })
-                        }
+                }
             })
         }
     })

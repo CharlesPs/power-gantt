@@ -69,9 +69,6 @@ const App = () => {
 
     const getGroupItem = (item: any, level: number, colorsTo: string) => {
 
-        const durationAndProgress = UI_helper.getGroupDurationAndProgress(item.group.items)
-        const bars = UI_helper.getGroupBars(item.group.items)
-
         return {
             _id: item._id,
             pos: item.pos,
@@ -80,14 +77,14 @@ const App = () => {
             group_id: item.group._id,
             collapseStatus: item.collapseStatus,
             title: item.group.name,
-            startsAt: durationAndProgress.startsAt,
-            endsAt: durationAndProgress.endsAt,
-            progress: durationAndProgress.progress,
-            bars: bars.map((bar: any) => {
+            items: item.group.items.map((item: any) => {
 
-                bar.color = colorsTo === 'status' ? statusColors[bar.status] : codesColors[bar.code]
+                if (item.type === 'task') {
 
-                return bar
+                    item.color = colorsTo === 'status' ? statusColors[item.task.status] : codesColors[item.task.code]
+                }
+
+                return item
             }),
         }
     }

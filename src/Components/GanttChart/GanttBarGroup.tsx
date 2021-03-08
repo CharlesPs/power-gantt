@@ -5,24 +5,39 @@ import UI_helper from '../../Helpers/UI_helper'
 import GanttBarTask from './GanttBar'
 
 type Props ={
-    x: number,
+    items: any,
     y: number,
-    w: number,
     title: string,
     color: string,
-    progress: number,
+    ganttStart: string,
     ganttWidth: number,
+    dayWidth: number,
     collapseStatus: string,
-    bars: any,
 }
 
 const GanttBarGroup = (props: Props) => {
+
+        const durationAndProgress = UI_helper.getGroupDurationAndProgress(props.items)
+        const bars = UI_helper.getGroupBars(props.items)
+
+        if (props.collapseStatus === 'collapsed') {
+
+            bars.map((bar: any) => {
+
+                bar.x = UI_helper.getDayPosition(props.ganttStart, bar.startsAt) * props.dayWidth
+                bar.w = UI_helper.getDaysLength(bar.startsAt, bar.endsAt) * props.dayWidth
+            })
+        }
+
+        const x = UI_helper.getDayPosition(props.ganttStart, durationAndProgress.startsAt) * props.dayWidth
+
+        const w = UI_helper.getDaysLength(durationAndProgress.startsAt, durationAndProgress.endsAt) * props.dayWidth
 
     return (
         <>
             {props.collapseStatus === 'collapsed' ? (
                 <g className="gantt-chart-item-group-bar">
-                    {props.bars.map((bar: any, i: number) => (
+                    {bars.map((bar: any, i: number) => (
                         <rect key={i}
                             className="grid-row-item"
                             fill={bar.color}
@@ -36,12 +51,12 @@ const GanttBarGroup = (props: Props) => {
             ) : (
                 <>
                     <GanttBarTask
-                        x={props.x}
+                        x={x}
                         y={props.y}
-                        w={props.w}
+                        w={w}
                         title={props.title}
                         color={props.color}
-                        progress={props.progress}
+                        progress={durationAndProgress.progress}
                         ganttWidth={props.ganttWidth}
                     />
                 </>

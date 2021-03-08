@@ -2,7 +2,7 @@
 array-callback-return: "off"
 */
 
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 
 import UI_helper from '../../Helpers/UI_helper'
 import GanttBar from './GanttBar'
@@ -17,15 +17,6 @@ type Props = {
 }
 
 const GanttChartBodyItem = (props: Props) => {
-
-    if (props.item.collapseStatus === 'collapsed') {
-
-        props.item.bars.map((bar: any) => {
-
-            bar.x = UI_helper.getDayPosition(props.ganttStart, bar.startsAt) * props.dayWidth
-            bar.w = UI_helper.getDaysLength(bar.startsAt, bar.endsAt) * props.dayWidth
-        })
-    }
 
     const x = UI_helper.getDayPosition(props.ganttStart, props.item.startsAt) * props.dayWidth
 
@@ -47,15 +38,14 @@ const GanttChartBodyItem = (props: Props) => {
                 />
             ) : (
                 <GanttBarGroup
-                    x={x}
+                    items={props.item.items}
                     y={props.y}
-                    w={w}
                     title={props.item.title}
                     color={color}
-                    progress={props.item.progress}
+                    ganttStart={props.ganttStart}
                     ganttWidth={props.ganttWidth}
+                    dayWidth={props.dayWidth}
                     collapseStatus={props.item.collapseStatus}
-                    bars={props.item.bars}
                 />
             )}
             <g className="gantt-chart-item-controls">
