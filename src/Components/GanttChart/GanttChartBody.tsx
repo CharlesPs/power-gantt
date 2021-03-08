@@ -11,6 +11,9 @@ type Props = {
     end: string,
     dayWidth: number,
     items: any,
+    onItemHover?: any,
+    hover?: number,
+    active?: number,
 }
 
 const GanttChartBody = (props: Props) => {
@@ -30,6 +33,9 @@ const GanttChartBody = (props: Props) => {
                 items={props.items}
                 days={days}
                 dayWidth={props.dayWidth}
+                onItemHover={props.onItemHover}
+                hover={props.hover}
+                active={props.active}
             />
             <GanttChartArrows
                 relations={relations}

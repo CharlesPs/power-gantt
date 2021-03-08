@@ -6,6 +6,9 @@ type Props = {
     items: any,
     days: any,
     dayWidth: number,
+    onItemHover?: any,
+    hover?: number,
+    active?: number,
 }
 
 const GridSpecialDays = (props: any) => {
@@ -40,28 +43,26 @@ const GanttChartBodyGrid = (props: Props) => {
 
     return (
         <g id="chart-grid">
-            <g id="grid-sundays">
-                <GridSpecialDays days={props.days} items={props.items} dayWidth={props.dayWidth} />
-            </g>
             <g id="grid-rows">
                 {props.items.map((item: any, i: number) => {
 
-                    if (i === (props.items.length - 1)) {
-
-                        return null
-                    }
-
                     return (
-                        // hacer grid para los domingos y feriados y today
                         <GanttChartBodyGridItem key={i}
+                            i={i}
                             x={i}
                             y={i}
                             item={item}
                             chartWidth={(props.days.length * props.dayWidth) + 17}
                             dayWidth={props.dayWidth}
+                            onItemHover={props.onItemHover}
+                            isHover={props.hover === i}
+                            isActive={props.active === i}
                         />
                     )
                 })}
+            </g>
+            <g id="grid-sundays">
+                <GridSpecialDays days={props.days} items={props.items} dayWidth={props.dayWidth} />
             </g>
         </g>
     )

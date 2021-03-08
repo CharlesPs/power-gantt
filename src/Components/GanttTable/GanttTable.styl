@@ -44,6 +44,12 @@
             justify-content: flex-start
             padding-right 17px
 
+            &.hover
+                background-color var(--gantt-item-color-bg-hover)
+
+            &.active
+                background-color var(--gantt-item-color-bg-active)
+
         .td
             padding: 4px
             display: flex
@@ -79,8 +85,8 @@
                         cursor pointer
                         flex none
                         padding-right: 4px
-                        text-decoration: underline
-                        text-decoration-style: dotted
+                        // text-decoration: underline
+                        // text-decoration-style: dotted
                         user-select: none
 
             input[type="text"]

@@ -68,6 +68,16 @@
             line
                 shape-rendering: crispEdges
 
+
+            .grid-row-bg
+                fill transparent
+
+                &.hover
+                    fill var(--gantt-item-color-bg-hover)
+
+                &.active
+                    fill var(--gantt-item-color-bg-active)
+
             .gantt-chart-item
 
                 rect

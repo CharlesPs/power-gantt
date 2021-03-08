@@ -7,6 +7,7 @@ type Props = {
     onItemClick?: any,
     onToggleCollapse?: any,
     onItemEdit?: any,
+    isActive?: boolean,
 }
 
 const GanttTableRowCell = (props: Props) => {
@@ -51,6 +52,11 @@ const GanttTableRowCell = (props: Props) => {
     }
 
     const handleClick = (e: any) => {
+
+        if (!props.isActive) {
+
+            return
+        }
 
         if (column.editable || column.onClick) {
 

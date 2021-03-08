@@ -50,7 +50,8 @@ const Gantt = (props: Props) => {
         minTableWidthPercent: props.minTableWidthPercent || 20,
         maxTableWidthPercent: props.maxTableWidthPercent || 50,
         dayWidth: props.dayWidth || 32,
-        // scrollTop: 0,
+        hover: -1,
+        active: -1,
     })
 
     const ganttElRef: any = useRef()
@@ -157,11 +158,16 @@ const Gantt = (props: Props) => {
         }
     }
 
-    const onItemClick = (item: any) => {
+    const onItemClick = (item: any, active: number) => {
 
         const x = UI_helper.getDayPosition(props.start, item.startsAt)
 
         chartBodyRef.current.scrollLeft = x * props.dayWidth
+
+        setState({
+            ...state,
+            active
+        })
     }
 
     return (
@@ -203,6 +209,9 @@ const Gantt = (props: Props) => {
                             onToggleCollapse={props.onToggleCollapse}
                             onItemClick={onItemClick}
                             onItemEdit={props.onItemEdit}
+                            onItemHover={(hover: number) => setState({ ...state, hover })}
+                            hover={state.hover}
+                            active={state.active}
                         />
                     </div>
                 </div>
@@ -227,6 +236,9 @@ const Gantt = (props: Props) => {
                             end={props.end}
                             dayWidth={props.dayWidth}
                             items={props.items}
+                            onItemHover={(hover: number) => setState({ ...state, hover })}
+                            hover={state.hover}
+                            active={state.active}
                         />
                     </div>
                 </div>
