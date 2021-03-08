@@ -121,6 +121,12 @@ export const getRelations = (items: any) => {
         if (item.type === 'task') {
 
             obj_items[item.task_id] = { item, i }
+        } else {
+
+            if (item.collapseStatus === 'collapsed') {
+
+                console.log(item.bars)
+            }
         }
     })
 
@@ -165,10 +171,12 @@ export const getRelations = (items: any) => {
     return relations
 }
 
-export const getGroupDuration = (items: any) => {
+export const getGroupDurationAndProgress = (items: any) => {
 
     let startsAt: any
     let endsAt: any
+    let progress: number = 0
+    let progress_counter = 0
 
     items.map((item0: any) => {
 
@@ -184,6 +192,9 @@ export const getGroupDuration = (items: any) => {
                     startsAt = item0.task.startsAt
                 }
             }
+
+            progress += item0.task.progress
+            progress_counter += 1
 
             if (!endsAt) {
 
@@ -212,6 +223,9 @@ export const getGroupDuration = (items: any) => {
                         }
                     }
 
+                    progress += item1.task.progress
+                    progress_counter += 1
+
                     if (!endsAt) {
 
                         endsAt = item1.task.endsAt
@@ -227,7 +241,7 @@ export const getGroupDuration = (items: any) => {
         }
     })
 
-    return { startsAt, endsAt }
+    return { startsAt, endsAt, progress: progress / progress_counter }
 }
 
 export const getGroupBars = (items: any) => {
@@ -239,10 +253,13 @@ export const getGroupBars = (items: any) => {
         if (item0.type === 'task') {
 
             bars.push({
+                task_id: item0.task._id,
                 startsAt: item0.task.startsAt,
                 endsAt: item0.task.endsAt,
                 status: item0.task.status,
                 code: item0.task.code,
+                progress: item0.task.progress,
+                relations: item0.task.relations,
             })
         } else {
 
@@ -251,10 +268,13 @@ export const getGroupBars = (items: any) => {
                 if (item1.type === 'task') {
 
                     bars.push({
+                        task_id: item1.task._id,
                         startsAt: item1.task.startsAt,
                         endsAt: item1.task.endsAt,
                         status: item1.task.status,
                         code: item1.task.code,
+                        progress: item1.task.progress,
+                        relations: item1.task.relations,
                     })
                         }
             })
@@ -271,6 +291,6 @@ export default {
     getDayPosition,
     getDaysLength,
     getRelations,
-    getGroupDuration,
+    getGroupDurationAndProgress,
     getGroupBars,
 }

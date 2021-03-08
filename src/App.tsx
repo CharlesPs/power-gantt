@@ -1,3 +1,7 @@
+/*eslint
+array-callback-return: "off",
+@typescript-eslint/no-unused-vars: "off"
+*/
 
 import React, { useState } from 'react';
 
@@ -65,7 +69,7 @@ const App = () => {
 
     const getGroupItem = (item: any, level: number, colorsTo: string) => {
 
-        const duration = UI_helper.getGroupDuration(item.group.items)
+        const durationAndProgress = UI_helper.getGroupDurationAndProgress(item.group.items)
         const bars = UI_helper.getGroupBars(item.group.items)
 
         return {
@@ -76,8 +80,9 @@ const App = () => {
             group_id: item.group._id,
             collapseStatus: item.collapseStatus,
             title: item.group.name,
-            startsAt: duration.startsAt,
-            endsAt: duration.endsAt,
+            startsAt: durationAndProgress.startsAt,
+            endsAt: durationAndProgress.endsAt,
+            progress: durationAndProgress.progress,
             bars: bars.map((bar: any) => {
 
                 bar.color = colorsTo === 'status' ? statusColors[bar.status] : codesColors[bar.code]
@@ -205,7 +210,7 @@ const App = () => {
                             execute_days: 2,
                             startsAt: '2021-02-01',
                             endsAt: '2021-02-03',
-                            progress: 50,
+                            progress: 10,
                             unit: 'Metros',
                             metered: 1,
                             performance: 2,
@@ -231,13 +236,13 @@ const App = () => {
                             execute_days: 2,
                             startsAt: '2021-02-05',
                             endsAt: '2021-02-06',
-                            progress: 50,
+                            progress: 20,
                             unit: 'Metros',
                             metered: 1,
                             performance: 2,
                             crewNumber: 3,
                             estimatedDays: 4,
-                            status: 'pendiente',
+                            status: 'atrasada',
                             code: 'green',
                             relations: [
                                 {
@@ -266,7 +271,7 @@ const App = () => {
                                         execute_days: 2,
                                         startsAt: '2021-02-08',
                                         endsAt: '2021-02-09',
-                                        progress: 50,
+                                        progress: 30,
                                         unit: 'Metros',
                                         metered: 1,
                                         performance: 2,
@@ -292,7 +297,7 @@ const App = () => {
                                         execute_days: 2,
                                         startsAt: '2021-02-10',
                                         endsAt: '2021-02-12',
-                                        progress: 50,
+                                        progress: 40,
                                         unit: 'Metros',
                                         metered: 1,
                                         performance: 2,
