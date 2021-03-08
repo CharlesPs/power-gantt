@@ -1,6 +1,6 @@
 {
   "name": "power-gantt",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "private": false,
   "main": "lib/library.js",
   "types": "lib/library.d.ts",
