@@ -18,6 +18,20 @@ type Props = {
 
 const GanttTableRows = (props: Props) => {
 
+    const items = props.items.map((item: any) => {
+
+        if (item.type === 'group') {
+
+            const durationAndProgress = ui_helper.getGroupDurationAndProgress(item.items)
+
+            item.startsAt = durationAndProgress.startsAt
+            item.endsAt = durationAndProgress.endsAt
+        }
+
+        return item
+    })
+
+
     const getClassName = (i: number) => {
 
         let className = "tr gantt-row"
@@ -37,7 +51,7 @@ const GanttTableRows = (props: Props) => {
 
     return (
         <>
-            {props.items.map((item: any, i: number) => (
+            {items.map((item: any, i: number) => (
                 <div key={i} className={getClassName(i)}
                     onMouseOver={() => props.onItemHover(i)}
                     style={{
