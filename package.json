@@ -10,7 +10,7 @@
   "scripts": {
     "ts": "tsc --project ./tsconfig.library.json && yarn cp-files",
     "cp-files": "cp './src/library.css' ./lib/",
-    "css": "stylus -w -c src/library.styl",
+    "css": "stylus -c src/library.styl",
     "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
