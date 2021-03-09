@@ -11,8 +11,8 @@ type Props = {
     onToggleCollapse: any,
     onItemClick: any,
     onItemEdit?: any,
-    onItemHover?: any,
-    hover?: any,
+    // onItemHover?: any,
+    // hover?: any,
     active?: any,
 }
 
@@ -36,10 +36,10 @@ const GanttTableRows = (props: Props) => {
 
         let className = "tr gantt-row"
 
-        if (props.hover === i) {
+        // if (props.hover === i) {
 
-            className += " hover"
-        }
+        //     className += " hover"
+        // }
 
         if (props.active === i) {
 

@@ -50,7 +50,7 @@ const Gantt = (props: Props) => {
         minTableWidthPercent: props.minTableWidthPercent || 20,
         maxTableWidthPercent: props.maxTableWidthPercent || 50,
         dayWidth: props.dayWidth || 32,
-        hover: -1,
+        // hover: -1,
         active: -1,
     })
 
@@ -209,8 +209,8 @@ const Gantt = (props: Props) => {
                             onToggleCollapse={props.onToggleCollapse}
                             onItemClick={onItemClick}
                             onItemEdit={props.onItemEdit}
-                            onItemHover={(hover: number) => setState({ ...state, hover })}
-                            hover={state.hover}
+                            // onItemHover={(hover: number) => setState({ ...state, hover })}
+                            // hover={state.hover}
                             active={state.active}
                         />
                     </div>
@@ -236,8 +236,8 @@ const Gantt = (props: Props) => {
                             end={props.end}
                             dayWidth={props.dayWidth}
                             items={props.items}
-                            onItemHover={(hover: number) => setState({ ...state, hover })}
-                            hover={state.hover}
+                            // onItemHover={(hover: number) => setState({ ...state, hover })}
+                            // hover={state.hover}
                             active={state.active}
                         />
                     </div>
