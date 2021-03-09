@@ -53,7 +53,7 @@ const GanttTableRows = (props: Props) => {
         <>
             {items.map((item: any, i: number) => (
                 <div key={i} className={getClassName(i)}
-                    onMouseOver={() => props.onItemHover(i)}
+                    // onMouseOver={() => props.onItemHover(i)}
                     style={{
                         width: ui_helper.getTableWidth(props.columns)
                     }}

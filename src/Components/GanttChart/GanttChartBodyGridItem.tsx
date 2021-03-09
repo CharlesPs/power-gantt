@@ -36,7 +36,7 @@ const GanttChartBodyGridItem = (props: Props) => {
         <g id="chart-item">
             <rect
                 className={getClassName()}
-                onMouseOver={() => props.onItemHover(props.i)}
+                // onMouseOver={() => props.onItemHover(props.i)}
                 x={0}
                 y={props.y * 32}
                 height={31}
