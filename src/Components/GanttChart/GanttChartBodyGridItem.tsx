@@ -8,8 +8,6 @@ type Props = {
     item: any,
     chartWidth: number,
     dayWidth: number,
-    // onItemHover?: any,
-    // isHover?: boolean
     isActive?: boolean
 }
 
@@ -18,11 +16,6 @@ const GanttChartBodyGridItem = (props: Props) => {
     const getClassName = () => {
 
         let className = 'grid-row-bg'
-
-        // if (props.isHover) {
-
-        //     className += ' hover'
-        // }
 
         if (props.isActive) {
 
@@ -36,7 +29,6 @@ const GanttChartBodyGridItem = (props: Props) => {
         <g id="chart-item">
             <rect
                 className={getClassName()}
-                // onMouseOver={() => props.onItemHover(props.i)}
                 x={0}
                 y={props.y * 32}
                 height={31}

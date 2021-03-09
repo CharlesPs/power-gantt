@@ -6,8 +6,6 @@ type Props = {
     items: any,
     days: any,
     dayWidth: number,
-    // onItemHover?: any,
-    // hover?: number,
     active?: number,
 }
 
@@ -54,8 +52,6 @@ const GanttChartBodyGrid = (props: Props) => {
                             item={item}
                             chartWidth={(props.days.length * props.dayWidth) + 17}
                             dayWidth={props.dayWidth}
-                            // onItemHover={props.onItemHover}
-                            // isHover={props.hover === i}
                             isActive={props.active === i}
                         />
                     )

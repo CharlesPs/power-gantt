@@ -11,8 +11,6 @@ type Props = {
     onToggleCollapse: any,
     onItemClick: any,
     onItemEdit?: any,
-    // onItemHover?: any,
-    // hover?: any,
     active?: any,
 }
 
@@ -36,11 +34,6 @@ const GanttTableRows = (props: Props) => {
 
         let className = "tr gantt-row"
 
-        // if (props.hover === i) {
-
-        //     className += " hover"
-        // }
-
         if (props.active === i) {
 
             className += " active"
@@ -53,7 +46,6 @@ const GanttTableRows = (props: Props) => {
         <>
             {items.map((item: any, i: number) => (
                 <div key={i} className={getClassName(i)}
-                    // onMouseOver={() => props.onItemHover(i)}
                     style={{
                         width: ui_helper.getTableWidth(props.columns)
                     }}
