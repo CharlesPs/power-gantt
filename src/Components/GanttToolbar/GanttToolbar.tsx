@@ -53,6 +53,7 @@ const GanttToolbar = (props: Props) => {
                                     <button key={i}
                                         className={options.buttonClassName}
                                         onClick={button.onClick}
+                                        style={{ marginRight: 4 }}
                                     >
                                         {button.icon} {button.text}
                                     </button>

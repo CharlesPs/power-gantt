@@ -501,7 +501,12 @@ const App = () => {
                                         icon: <i className="fas fa-fw fa-plus"></i>,
                                         text: 'Nueva tarea',
                                         onClick: () => console.log('nueva tarea ok!')
-                                    }
+                                    },
+                                    {
+                                        icon: <i className="fas fa-fw fa-plus"></i>,
+                                        text: 'Nuevo grupo',
+                                        onClick: () => console.log('nuevo grupo ok!')
+                                    },
                                 ],
                                 right: {
                                     showWidthButtons: true
