@@ -171,69 +171,61 @@ export const getRelations = (items: any) => {
     return relations
 }
 
-export const getGroupDurationAndProgress = (items: any) => {
+export const getGroupDuration = (items0: any) => {
 
     let startsAt: any
     let endsAt: any
-    let progress: number = 0
-    let progress_counter = 0
 
-    items.map((item0: any) => {
+    items0.map((item1: any) => {
 
-        if (item0.type === 'task') {
+        if (item1.type === 'task') {
 
             if (!startsAt) {
 
-                startsAt = item0.task.startsAt
+                startsAt = item1.task.startsAt
             } else {
 
-                if (moment(item0.task.startsAt).isBefore(startsAt)) {
+                if (moment(item1.task.startsAt).isBefore(startsAt)) {
 
-                    startsAt = item0.task.startsAt
+                    startsAt = item1.task.startsAt
                 }
             }
 
-            progress += item0.task.progress
-            progress_counter += 1
-
             if (!endsAt) {
 
-                endsAt = item0.task.endsAt
+                endsAt = item1.task.endsAt
             } else {
 
-                if (moment(item0.task.endsAt).isAfter(endsAt)) {
+                if (moment(item1.task.endsAt).isAfter(endsAt)) {
 
-                    endsAt = item0.task.endsAt
+                    endsAt = item1.task.endsAt
                 }
             }
         } else {
 
-            item0.group.items.map((item1: any) => {
+            item1.group.items.map((item2: any) => {
 
-                if (item1.type === 'task') {
+                if (item2.type === 'task') {
 
                     if (!startsAt) {
 
-                        startsAt = item1.task.startsAt
+                        startsAt = item2.task.startsAt
                     } else {
 
-                        if (moment(item1.task.startsAt).isBefore(startsAt)) {
+                        if (moment(item2.task.startsAt).isBefore(startsAt)) {
 
-                            startsAt = item1.task.startsAt
+                            startsAt = item2.task.startsAt
                         }
                     }
 
-                    progress += item1.task.progress
-                    progress_counter += 1
-
                     if (!endsAt) {
 
-                        endsAt = item1.task.endsAt
+                        endsAt = item2.task.endsAt
                     } else {
 
-                        if (moment(item1.task.endsAt).isAfter(endsAt)) {
+                        if (moment(item2.task.endsAt).isAfter(endsAt)) {
 
-                            endsAt = item1.task.endsAt
+                            endsAt = item2.task.endsAt
                         }
                     }
                 }
@@ -241,7 +233,49 @@ export const getGroupDurationAndProgress = (items: any) => {
         }
     })
 
-    return { startsAt, endsAt, progress: progress / progress_counter }
+    return { startsAt, endsAt }
+}
+
+export const getGroupProgress = (items0: any) => {
+
+    let progress: number = 0
+    let progress_counter = 0
+
+    items0.map((item1: any) => {
+
+        if (item1.type === 'task') {
+
+            progress += item1.task.progress
+            progress_counter += 1
+        } else {
+
+            item1.group.items.map((item2: any) => {
+
+                if (item2.type === 'task') {
+
+                    progress += item2.task.progress
+                    progress_counter += 1
+                }
+            })
+        }
+    })
+
+    return progress / progress_counter
+}
+
+export const hasGroupsInside = (items0: any) => {
+
+    let hasGroupsInside = false
+
+    items0.map((item1: any) => {
+
+        if (item1.type === 'group') {
+
+            hasGroupsInside = true
+        }
+    })
+
+    return hasGroupsInside
 }
 
 export const getGroupBars = (items: any) => {
@@ -289,6 +323,8 @@ export default {
     getDayPosition,
     getDaysLength,
     getRelations,
-    getGroupDurationAndProgress,
+    getGroupDuration,
+    getGroupProgress,
+    hasGroupsInside,
     getGroupBars,
 }

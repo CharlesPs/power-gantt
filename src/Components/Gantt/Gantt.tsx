@@ -1,12 +1,16 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 
+import GanttToolbar from '../GanttToolbar/GanttToolbar'
+
 import GanttTableRows from '../GanttTable/GanttTableRows'
 import GanttChartHeader from '../GanttChart/GanttChartHeader'
 import GanttChartBody from '../GanttChart/GanttChartBody'
 import GanttDivisor from './GanttDivisor'
 
 import UI_helper from '../../Helpers/UI_helper'
+
+import '@fortawesome/fontawesome-free/css/all.min.css'
 
 import '../../library.css'
 
@@ -22,6 +26,8 @@ type Props = {
     maxTableWidthPercent?: number,
     defTableWidthPorcent?: number,
     dayWidth: number,
+    dayMinWidth?: number,
+    dayMaxWidth?: number,
     onToggleCollapse: any,
     onItemEdit?: any,
 }
@@ -41,7 +47,15 @@ const Gantt = (props: Props) => {
         }
     })
 
+    if (!localStorage.getItem(`gantt-${props.id}-column-size`)) {
+
+        localStorage.setItem(`gantt-${props.id}-column-size`, `${props.dayWidth}`)
+    }
+
     const localPercent = parseFloat(localStorage.getItem(`gantt-${props.id}`) || '0')
+    const localColumnSize = parseInt(localStorage.getItem(`gantt-${props.id}-column-size`) || '0', 10)
+
+    console.log(localStorage.getItem(`gantt-${props.id}-column-size`))
 
     const [ state, setState ] = useState({
         divisorPosition: localPercent || 40,
@@ -49,7 +63,7 @@ const Gantt = (props: Props) => {
         ganttLeft: 0,
         minTableWidthPercent: props.minTableWidthPercent || 20,
         maxTableWidthPercent: props.maxTableWidthPercent || 50,
-        dayWidth: props.dayWidth || 32,
+        dayWidth: localColumnSize || props.dayWidth || 32,
         active: -1,
     })
 
@@ -169,78 +183,101 @@ const Gantt = (props: Props) => {
         })
     }
 
+    const onChangeWidth = (dayWidth: number) => {
+
+        if (dayWidth === state.dayWidth) {
+
+            return
+        }
+
+        localStorage.setItem(`gantt-${props.id}-column-size`, `${dayWidth}`)
+
+        setState({
+            ...state,
+            dayWidth
+        })
+    }
+
     return (
         <>
-            <div className="gantt"
-                ref={ganttElRef}
-            >
-                <div className="gantt-table"
-                    style={{
-                        flexBasis: `${state.divisorPosition}%`
-                    }}
+            <div className="gantt-container">
+                <GanttToolbar
+                    dayWidth={state.dayWidth}
+                    minDayWidth={props.dayMinWidth || props.dayWidth}
+                    maxDayWidth={props.dayMaxWidth || props.dayWidth}
+                    onChangeWidth={onChangeWidth}
+                />
+                <div className="gantt"
+                    ref={ganttElRef}
                 >
-                    <div className="header">
-                        <div className="header-scroll"
-                            ref={tableHeaderRef}
-                        >
-                            <div className="tr"
-                                style={{
-                                width: UI_helper.getTableWidth(props.columns)
-                            }}
+                    <div className="gantt-table"
+                        style={{
+                            flexBasis: `${state.divisorPosition}%`
+                        }}
+                    >
+                        <div className="header">
+                            <div className="header-scroll"
+                                ref={tableHeaderRef}
                             >
-                                {props.columns.map((column: any, i: number) => (
-                                    <div key={i} className="th" style={{
-                                        width: column.width
-                                    }}>
-                                        {column.text}
-                                    </div>
-                                ))}
+                                <div className="tr"
+                                    style={{
+                                    width: UI_helper.getTableWidth(props.columns)
+                                }}
+                                >
+                                    {props.columns.map((column: any, i: number) => (
+                                        <div key={i} className="th" style={{
+                                            width: column.width
+                                        }}>
+                                            {column.text}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="body"
-                        ref={tableBodyRef}
-                        onScroll={(e: any) => onTableBodyScroll()}
-                    >
-                        <GanttTableRows
-                            items={props.items}
-                            columns={props.columns}
-                            onToggleCollapse={props.onToggleCollapse}
-                            onItemClick={onItemClick}
-                            onItemEdit={props.onItemEdit}
-                            active={state.active}
-                        />
-                    </div>
-                </div>
-                <div className="gantt-chart">
-                    <div className="header">
-                        <div className="header-scroll"
-                            ref={chartHeaderRef}
+                        <div className="body"
+                            ref={tableBodyRef}
+                            onScroll={(e: any) => onTableBodyScroll()}
                         >
-                            <GanttChartHeader
-                                start={props.start}
-                                end={props.end}
-                                dayWidth={props.dayWidth}
+                            <GanttTableRows
+                                items={props.items}
+                                columns={props.columns}
+                                onToggleCollapse={props.onToggleCollapse}
+                                onItemClick={onItemClick}
+                                onItemEdit={props.onItemEdit}
+                                active={state.active}
                             />
                         </div>
                     </div>
-                    <div id="table-body" className="body"
-                        ref={chartBodyRef}
-                        onScroll={(e: any) => onChartBodyScroll()}
-                    >
-                        <GanttChartBody
-                            start={props.start}
-                            end={props.end}
-                            dayWidth={props.dayWidth}
-                            items={props.items}
-                            active={state.active}
-                        />
+                    <div className="gantt-chart">
+                        <div className="header">
+                            <div className="header-scroll"
+                                ref={chartHeaderRef}
+                            >
+                                <GanttChartHeader
+                                    start={props.start}
+                                    end={props.end}
+                                    dayWidth={state.dayWidth}
+                                />
+                            </div>
+                        </div>
+                        <div id="table-body" className="body"
+                            ref={chartBodyRef}
+                            onScroll={(e: any) => onChartBodyScroll()}
+                        >
+                            <GanttChartBody
+                                start={props.start}
+                                end={props.end}
+                                dayWidth={state.dayWidth}
+                                items={props.items}
+                                active={state.active}
+                            />
+                        </div>
                     </div>
+                    <GanttDivisor
+                        divisorPosition={state.divisorPosition}
+                        onScroll={(newPosition: any) => updateDivisorPosition(newPosition)}
+                    />
                 </div>
-                <GanttDivisor
-                    divisorPosition={state.divisorPosition}
-                    onScroll={(newPosition: any) => updateDivisorPosition(newPosition)}
-                />
             </div>
         </>
     )

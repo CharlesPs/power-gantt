@@ -490,6 +490,8 @@ const App = () => {
                             minTableWidthPercent={20}
                             maxTableWidthPercent={75}
                             dayWidth={40}
+                            dayMinWidth={24}
+                            dayMaxWidth={64}
                             onToggleCollapse={toggleCollapse}
                             onItemEdit={onItemEdit}
                         />

@@ -17,7 +17,8 @@ type Props ={
 
 const GanttBarGroup = (props: Props) => {
 
-        const durationAndProgress = UI_helper.getGroupDurationAndProgress(props.items)
+        const durationAndProgress = UI_helper.getGroupDuration(props.items)
+        const progress = UI_helper.getGroupProgress(props.items)
         const bars = UI_helper.getGroupBars(props.items)
 
         if (props.collapseStatus === 'collapsed') {
@@ -56,7 +57,7 @@ const GanttBarGroup = (props: Props) => {
                         w={w}
                         title={props.title}
                         color={props.color}
-                        progress={durationAndProgress.progress}
+                        progress={progress}
                         ganttWidth={props.ganttWidth}
                     />
                 </>

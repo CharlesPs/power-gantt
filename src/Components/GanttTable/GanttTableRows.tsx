@@ -20,10 +20,10 @@ const GanttTableRows = (props: Props) => {
 
         if (item.type === 'group') {
 
-            const durationAndProgress = ui_helper.getGroupDurationAndProgress(item.items)
+            const duration = ui_helper.getGroupDuration(item.items)
 
-            item.startsAt = durationAndProgress.startsAt
-            item.endsAt = durationAndProgress.endsAt
+            item.startsAt = duration.startsAt
+            item.endsAt = duration.endsAt
         }
 
         return item
