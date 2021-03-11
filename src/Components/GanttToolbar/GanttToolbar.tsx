@@ -2,6 +2,7 @@
 import React from 'react'
 
 type Props = {
+    options?: any,
     dayWidth: number,
     minDayWidth: number,
     maxDayWidth: number,
@@ -9,6 +10,17 @@ type Props = {
 }
 
 const GanttToolbar = (props: Props) => {
+
+    const defaultOptions = {
+        enabled: true,
+        buttonClassName: 'btn btn-default',
+        left: [],
+        right: {
+            showWidthButtons: false
+        }
+    }
+
+    const options = Object.assign(defaultOptions, props.options)
 
     const lessDayWidth = () => {
 
@@ -32,19 +44,36 @@ const GanttToolbar = (props: Props) => {
 
     return (
         <>
-            <div className="gantt-toolbar">
-                <div className="toolbar-left"></div>
-                <div className="toolbar-right">
-                    <div className="btn-group">
-                        <button className="btn btn-default" onClick={lessDayWidth}>
-                            <i className="fas fa-minus"></i>
-                        </button>
-                        <button className="btn btn-default" onClick={moreDayWidth}>
-                            <i className="fas fa-plus"></i>
-                        </button>
+            {!options.enabled ? null : (
+                <div className="gantt-toolbar">
+                    <div className="toolbar-left">
+                        {!options.left ? null : (
+                            <>
+                                {options.left.map((button: any, i: number) => (
+                                    <button key={i}
+                                        className={options.buttonClassName}
+                                        onClick={button.onClick}
+                                    >
+                                        {button.icon} {button.text}
+                                    </button>
+                                ))}
+                            </>
+                        )}
+                    </div>
+                    <div className="toolbar-right">
+                        {!options.right.showWidthButtons ? null : (
+                            <div className="btn-group">
+                                <button className={options.buttonClassName} onClick={lessDayWidth}>
+                                    <i className="fas fa-minus"></i>
+                                </button>
+                                <button className={options.buttonClassName} onClick={moreDayWidth}>
+                                    <i className="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
-            </div>
+            )}
         </>
     )
 }

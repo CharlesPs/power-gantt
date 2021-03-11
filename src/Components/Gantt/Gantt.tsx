@@ -30,6 +30,7 @@ type Props = {
     dayMaxWidth?: number,
     onToggleCollapse: any,
     onItemEdit?: any,
+    toolbar?: any,
 }
 
 let scrollTop = 0
@@ -54,8 +55,6 @@ const Gantt = (props: Props) => {
 
     const localPercent = parseFloat(localStorage.getItem(`gantt-${props.id}`) || '0')
     const localColumnSize = parseInt(localStorage.getItem(`gantt-${props.id}-column-size`) || '0', 10)
-
-    console.log(localStorage.getItem(`gantt-${props.id}-column-size`))
 
     const [ state, setState ] = useState({
         divisorPosition: localPercent || 40,
@@ -202,6 +201,7 @@ const Gantt = (props: Props) => {
         <>
             <div className="gantt-container">
                 <GanttToolbar
+                    options={props.toolbar}
                     dayWidth={state.dayWidth}
                     minDayWidth={props.dayMinWidth || props.dayWidth}
                     maxDayWidth={props.dayMaxWidth || props.dayWidth}

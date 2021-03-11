@@ -494,6 +494,19 @@ const App = () => {
                             dayMaxWidth={64}
                             onToggleCollapse={toggleCollapse}
                             onItemEdit={onItemEdit}
+                            toolbar={{
+                                // buttonClassName: 'btn btn-default',
+                                left: [
+                                    {
+                                        icon: <i className="fas fa-fw fa-plus"></i>,
+                                        text: 'Nueva tarea',
+                                        onClick: () => console.log('nueva tarea ok!')
+                                    }
+                                ],
+                                right: {
+                                    showWidthButtons: true
+                                }
+                            }}
                         />
                     </div>
                 </div>
