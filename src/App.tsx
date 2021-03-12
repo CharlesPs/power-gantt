@@ -502,12 +502,12 @@ const App = () => {
                                 showOptionsButton: true,
                                 left: [
                                     (
-                                        <button className="btn btn-default">
+                                        <button className="btn btn-default mr-1">
                                             <i className="fas fa-fw fa-plus"></i> Nueva tarea
                                         </button>
                                     ),
                                     (
-                                        <button className="btn btn-default ml-1">
+                                        <button className="btn btn-default">
                                             <i className="fas fa-fw fa-plus"></i> Nuevo grupo
                                         </button>
                                     ),

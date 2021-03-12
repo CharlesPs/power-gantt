@@ -23,10 +23,26 @@ const GanttToolbar = (props: Props) => {
             {!options.enabled ? null : (
                 <div className="gantt-toolbar">
                     <div className="toolbar-left">
-                        {!options.left ? null : options.left}
+                        {!options.left ? null : (
+                            <>
+                                {React.Children.map(options.left, (child: any, i: number) => (
+                                    <>
+                                        {child}
+                                    </>
+                                ))}
+                            </>
+                        )}
                     </div>
                     <div className="toolbar-right">
-                        {!options.right ? null : options.right}
+                        {!options.right ? null : (
+                            <>
+                                {React.Children.map(options.right, (child: any, i: number) => (
+                                    <>
+                                        {child}
+                                    </>
+                                ))}
+                            </>
+                        )}
                     </div>
                     {!options.showOptionsButton ? null : (
                         <div className="toolbar-right">
