@@ -7,6 +7,7 @@ import GanttTableRows from '../GanttTable/GanttTableRows'
 import GanttChartHeader from '../GanttChart/GanttChartHeader'
 import GanttChartBody from '../GanttChart/GanttChartBody'
 import GanttDivisor from './GanttDivisor'
+import GanttOptions from '../GanttOptions/GanttOptions'
 
 import UI_helper from '../../Helpers/UI_helper'
 
@@ -31,6 +32,7 @@ type Props = {
     onToggleCollapse: any,
     onItemEdit?: any,
     toolbar?: any,
+    options?: any,
 }
 
 let scrollTop = 0
@@ -58,6 +60,7 @@ const Gantt = (props: Props) => {
 
     const [ state, setState ] = useState({
         divisorPosition: localPercent || 40,
+        showOptions: false,
         ganttWidth: 0,
         ganttLeft: 0,
         minTableWidthPercent: props.minTableWidthPercent || 20,
@@ -202,10 +205,7 @@ const Gantt = (props: Props) => {
             <div className="gantt-container">
                 <GanttToolbar
                     options={props.toolbar}
-                    dayWidth={state.dayWidth}
-                    minDayWidth={props.dayMinWidth || props.dayWidth}
-                    maxDayWidth={props.dayMaxWidth || props.dayWidth}
-                    onChangeWidth={onChangeWidth}
+                    onToggleOptions={() => setState({ ...state, showOptions: !state.showOptions })}
                 />
                 <div className="gantt"
                     ref={ganttElRef}
@@ -276,6 +276,16 @@ const Gantt = (props: Props) => {
                     <GanttDivisor
                         divisorPosition={state.divisorPosition}
                         onScroll={(newPosition: any) => updateDivisorPosition(newPosition)}
+                    />
+                    <GanttOptions
+                        show={state.showOptions}
+                        options={{
+                            ...props.options,
+                            dayWidth: state.dayWidth,
+                            dayMinWidth: props.dayMinWidth || props.dayWidth,
+                            dayMaxWidth: props.dayMaxWidth || props.dayWidth,
+                        }}
+                        onChangeWidth={onChangeWidth}
                     />
                 </div>
             </div>

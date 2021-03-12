@@ -494,23 +494,25 @@ const App = () => {
                             dayMaxWidth={64}
                             onToggleCollapse={toggleCollapse}
                             onItemEdit={onItemEdit}
+                            options={{
+                                showWidthButtons: true
+                            }}
                             toolbar={{
-                                // buttonClassName: 'btn btn-default',
+                                buttonClassName: 'btn btn-default',
+                                showOptionsButton: true,
                                 left: [
-                                    {
-                                        icon: <i className="fas fa-fw fa-plus"></i>,
-                                        text: 'Nueva tarea',
-                                        onClick: () => console.log('nueva tarea ok!')
-                                    },
-                                    {
-                                        icon: <i className="fas fa-fw fa-plus"></i>,
-                                        text: 'Nuevo grupo',
-                                        onClick: () => console.log('nuevo grupo ok!')
-                                    },
+                                    (
+                                        <button className="btn btn-default">
+                                            <i className="fas fa-fw fa-plus"></i> Nueva tarea
+                                        </button>
+                                    ),
+                                    (
+                                        <button className="btn btn-default ml-1">
+                                            <i className="fas fa-fw fa-plus"></i> Nuevo grupo
+                                        </button>
+                                    ),
                                 ],
-                                right: {
-                                    showWidthButtons: true
-                                }
+                                right: []
                             }}
                         />
                     </div>

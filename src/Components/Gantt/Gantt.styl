@@ -1,4 +1,18 @@
 
+.gantt-container
+    font-size 12px
+
+    button
+        font-size inherit
+
+        &.btn-default
+            background-color var(--button-background)
+            border var(--button-border)
+            color var(--button-text-color)
+
+        &:focus
+            box-shadow: none
+
 .gantt
     background-color: #fff;
     border: 1px solid var(--border-color);
@@ -7,10 +21,13 @@
     font-size: 13px
     height 410px
     min-height: 410px
+    overflow: hidden
     position relative
 
     .gantt-row
         border-bottom: 1px solid var(--border-color)
         height: var(--row-height)
+
+
 
 @import './GanttDivisor.styl'
