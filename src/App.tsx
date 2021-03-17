@@ -495,10 +495,13 @@ const App = () => {
                             onToggleCollapse={toggleCollapse}
                             onItemEdit={onItemEdit}
                             options={{
-                                showWidthButtons: true
+                                buttonClassName: 'btn btn-default',
+                                showWidthButtons: true,
+                                daysFontSize: 12,
+                                daysMinFontSize: 8,
+                                daysMaxFontSize: 12,
                             }}
                             toolbar={{
-                                buttonClassName: 'btn btn-default',
                                 showOptionsButton: true,
                                 left: [
                                     (
