@@ -17,6 +17,8 @@ type Props ={
 
 const GanttBarGroup = (props: Props) => {
 
+        const has_groups = props.items.filter((item: any) => item.type === 'group').length ? true : false
+
         const durationAndProgress = UI_helper.getGroupDuration(props.items)
         const progress = UI_helper.getGroupProgress(props.items)
         const bars = UI_helper.getGroupBars(props.items)
@@ -36,7 +38,7 @@ const GanttBarGroup = (props: Props) => {
 
     return (
         <>
-            {props.collapseStatus === 'collapsed' ? (
+            {props.collapseStatus === 'collapsed' && !has_groups ? (
                 <g className="gantt-chart-item-group-bar">
                     {bars.map((bar: any, i: number) => (
                         <rect key={i}
