@@ -39,12 +39,6 @@ let scrollTop = 0
 let tableScrollLeft = 0
 let chartScrollLeft = 0
 
-const defaultOptions = {
-    showWidthButtons: true,
-    daysFontSize: 12,
-    daysMinFontSize: 8,
-    daysMaxFontSize: 12,
-}
 
 const Gantt = (props: Props) => {
 
@@ -56,8 +50,6 @@ const Gantt = (props: Props) => {
             dow: 1
         }
     })
-
-    const options = Object.assign(defaultOptions, props.options)
 
     if (!localStorage.getItem(`gantt-${props.id}-column-size`)) {
 
@@ -71,7 +63,6 @@ const Gantt = (props: Props) => {
 
     const localPercent = parseFloat(localStorage.getItem(`gantt-${props.id}`) || '0')
     const localColumnSize = parseInt(localStorage.getItem(`gantt-${props.id}-column-size`) || '0', 10)
-    const localDayFontSize = parseInt(localStorage.getItem(`gantt-${props.id}-column-size`) || '0', 10)
 
     const [ state, setState ] = useState({
         divisorPosition: localPercent || 40,
@@ -81,7 +72,6 @@ const Gantt = (props: Props) => {
         minTableWidthPercent: props.minTableWidthPercent || 20,
         maxTableWidthPercent: props.maxTableWidthPercent || 50,
         dayWidth: localColumnSize || props.dayWidth || 32,
-        // dayFontSize:
         active: -1,
     })
 

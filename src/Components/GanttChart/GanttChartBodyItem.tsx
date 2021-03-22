@@ -7,6 +7,7 @@ import React from 'react'
 import UI_helper from '../../Helpers/UI_helper'
 import GanttBar from './GanttBar'
 import GanttBarGroup from './GanttBarGroup'
+import GanttDiamond from './GanttDiamond'
 
 type Props = {
     y: number,
@@ -26,17 +27,7 @@ const GanttChartBodyItem = (props: Props) => {
 
     return (
         <g className="gantt-chart-item">
-            {props.item.type === 'task' ? (
-                <GanttBar
-                    x={x}
-                    y={props.y}
-                    w={w}
-                    title={props.item.title}
-                    color={color}
-                    progress={props.item.progress}
-                    ganttWidth={props.ganttWidth}
-                />
-            ) : (
+            {props.item.type === 'group' ? (
                 <GanttBarGroup
                     items={props.item.items}
                     y={props.y}
@@ -47,6 +38,26 @@ const GanttChartBodyItem = (props: Props) => {
                     dayWidth={props.dayWidth}
                     collapseStatus={props.item.collapseStatus}
                 />
+            ) : (
+                <>
+                    {props.item.task_type && props.item.task_type === 'hito' ? (
+                        <GanttDiamond
+                            x={x}
+                            y={props.y}
+                            color={color}
+                        />
+                    ) : (
+                        <GanttBar
+                            x={x}
+                            y={props.y}
+                            w={w}
+                            title={props.item.title}
+                            color={color}
+                            progress={props.item.progress}
+                            ganttWidth={props.ganttWidth}
+                        />
+                    )}
+                </>
             )}
             <g className="gantt-chart-item-controls">
             </g>

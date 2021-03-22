@@ -4,6 +4,8 @@
 
 import React, { useEffect } from 'react'
 
+import { RELATION_TYPES } from '../../Helpers/Constants'
+
 type Props = {
     fromX: number,
     fromY: number,
@@ -16,8 +18,9 @@ const GanttArrow = (props: Props) => {
 
     const isUp = props.fromY > props.toY
     const isDown = props.fromY < props.toY
-    const fromStart = props.type === 'start_to_start'
-    const fromEnd = props.type === 'end_to_start'
+    const fromDiamond = props.type === RELATION_TYPES.diamond_to_item
+    const fromStart = props.type === RELATION_TYPES.start_to_start
+    const fromEnd = props.type === RELATION_TYPES.end_to_start
     const toSameOrLeft = props.fromX >= props.toX
     const toRight = props.fromX < props.toX
 
@@ -28,7 +31,11 @@ const GanttArrow = (props: Props) => {
 
     if (isDown) {
 
-        if (fromStart) {
+        if (fromDiamond) {
+
+            x += 15
+            y += 1
+        } else if (fromStart) {
 
             x += 12
         } else if (fromEnd) {
@@ -67,7 +74,11 @@ const GanttArrow = (props: Props) => {
         path += ` a 5 5 0 0 0 5 5`
     } else if (isUp) {
 
-        if (fromStart) {
+        if (fromDiamond) {
+
+            x += 15
+            y -= 1
+        } else if (fromStart) {
 
             x += 12
         } else if (fromEnd) {

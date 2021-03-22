@@ -32,6 +32,23 @@ const GanttTableRowCell = (props: Props) => {
 
     const input_ref: any = useRef()
 
+    const getClassName = () => {
+
+        let class_name = 'content'
+
+        if (props.item.type === 'group') {
+
+            class_name += ' group'
+        }
+
+        if (props.column.editable) {
+
+            class_name += ' editable'
+        }
+
+        return class_name
+    }
+
     const getPadding = () => {
 
         let left = 4
@@ -159,7 +176,7 @@ const GanttTableRowCell = (props: Props) => {
                 </>
             )}
             {!editing ? (
-                <span className={`content ${!column.editable ? '' : 'editable'}`} onClick={(e: any) => handleClick(e)}>
+                <span className={getClassName()} onClick={(e: any) => handleClick(e)}>
                     {column.render ? column.render(cell) : cell}
                 </span>
             ): (

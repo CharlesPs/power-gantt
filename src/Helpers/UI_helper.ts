@@ -2,6 +2,8 @@
 array-callback-return: "off"
 */
 
+import { RELATION_TYPES } from './Constants'
+
 import moment from 'moment'
 
 const dow: any = 'D-L-M-M-J-V-S'.split('-')
@@ -146,7 +148,20 @@ export const getRelations = (items: any) => {
                 return
             }
 
-            if (relation.type === 'start_to_start') {
+            if (_item.item.task_type === 'hito') {
+
+                relations.push({
+                    fromDay: _item.item.startsAt,
+                    fromRow: _item.i,
+                    toDay: related.item.startsAt,
+                    toRow: related.i,
+                    type: RELATION_TYPES.diamond_to_item
+                })
+
+                return
+            }
+
+            if (relation.type === RELATION_TYPES.start_to_start) {
 
                 relations.push({
                     fromDay: _item.item.startsAt,
@@ -155,14 +170,14 @@ export const getRelations = (items: any) => {
                     toRow: related.i,
                     type: relation.type
                 })
-            } else if (relation.type === 'end_to_start') {
+            } else if (relation.type === RELATION_TYPES.end_to_start) {
 
                 relations.push({
                     fromDay: _item.item.endsAt,
                     fromRow: _item.i,
                     toDay: related.item.startsAt,
                     toRow: related.i,
-                    type: 'end_to_start'
+                    type: relation.type
                 })
             }
         })

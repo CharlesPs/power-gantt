@@ -11,7 +11,6 @@ import moment from 'moment'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
-import UI_helper from './Helpers/UI_helper';
 
 const App = () => {
 
@@ -51,6 +50,7 @@ const App = () => {
             level,
             type: 'task',
             task_id: item.task._id,
+            task_type: item.task.type,
             title: item.task.name,
             color: colorsTo === 'status' ? statusColors[item.task.status] : codesColors[item.task.code],
             status: statusStrings[item.task.status],
@@ -305,7 +305,7 @@ const App = () => {
                                         relations: [
                                             {
                                                 type: 'end_to_start',
-                                                task_id: 'item1'
+                                                task_id: 'hito1'
                                             }
                                         ]
                                     }
@@ -317,6 +317,32 @@ const App = () => {
             }
         },
         {
+            _id: 'itemH2',
+            type: 'task',
+            pos: 2,
+            task: {
+                _id: 'hito1',
+                type: 'hito',
+                name: 'Hito 1',
+                execute_days: 0,
+                startsAt: '2021-02-14',
+                endsAt: '2021-02-14',
+                progress: 50,
+                unit: 'Metros',
+                metered: 1,
+                performance: 2,
+                crewNumber: 3,
+                estimatedDays: 4,
+                status: 'atrasada',
+                code: 'green',
+                relations: [
+                    {
+                        task_id: 'item1'
+                    }
+                ]
+            }
+        },
+        {
             _id: 'itemT2',
             type: 'task',
             pos: 2,
@@ -324,8 +350,8 @@ const App = () => {
                 _id: 'item1',
                 name: 'Tarea 1',
                 execute_days: 2,
-                startsAt: '2021-02-13',
-                endsAt: '2021-02-15',
+                startsAt: '2021-02-16',
+                endsAt: '2021-02-18',
                 progress: 50,
                 unit: 'Metros',
                 metered: 1,
