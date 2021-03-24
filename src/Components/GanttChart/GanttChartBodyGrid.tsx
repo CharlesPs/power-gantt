@@ -7,9 +7,17 @@ type Props = {
     days: any,
     dayWidth: number,
     active?: number,
+    nonWorkingDays?: any,
 }
 
 const GridSpecialDays = (props: any) => {
+
+    const isNonWorkingDay = (day_ymd: string) => {
+
+        const match = props.nonWorkingDays.filter((_day: any) => _day === day_ymd)
+
+        return match.length ? true : false
+    }
 
     return props.days.map((day: any, i: number) => {
 
@@ -25,7 +33,7 @@ const GridSpecialDays = (props: any) => {
             )
         }
 
-        return day.day_of_week !== 'D' ? null : (
+        return (day.day_of_week !== 'D' && !isNonWorkingDay(day.ymd)) ? null : (
             <rect key={i}
                 className="grid-sunday"
                 x={i * props.dayWidth}
@@ -58,7 +66,12 @@ const GanttChartBodyGrid = (props: Props) => {
                 })}
             </g>
             <g id="grid-sundays">
-                <GridSpecialDays days={props.days} items={props.items} dayWidth={props.dayWidth} />
+                <GridSpecialDays
+                    days={props.days}
+                    items={props.items}
+                    dayWidth={props.dayWidth}
+                    nonWorkingDays={props.nonWorkingDays}
+                />
             </g>
         </g>
     )

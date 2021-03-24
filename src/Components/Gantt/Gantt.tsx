@@ -23,6 +23,7 @@ type Props = {
     end: string,
     items: any,
     columns: any,
+    nonWorkingDays?: any,
     minTableWidthPercent?: number,
     maxTableWidthPercent?: number,
     defTableWidthPorcent?: number,
@@ -41,6 +42,8 @@ let chartScrollLeft = 0
 
 
 const Gantt = (props: Props) => {
+
+    const nonWorkingDays = props.nonWorkingDays || []
 
     moment.locale('es')
 
@@ -272,6 +275,7 @@ const Gantt = (props: Props) => {
                                     start={props.start}
                                     end={props.end}
                                     dayWidth={state.dayWidth}
+                                    nonWorkingDays={nonWorkingDays}
                                 />
                             </div>
                         </div>
@@ -285,6 +289,7 @@ const Gantt = (props: Props) => {
                                 dayWidth={state.dayWidth}
                                 items={props.items}
                                 active={state.active}
+                                nonWorkingDays={nonWorkingDays}
                             />
                         </div>
                     </div>

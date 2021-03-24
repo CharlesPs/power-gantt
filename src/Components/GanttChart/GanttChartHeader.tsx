@@ -6,12 +6,20 @@ type Props = {
     start: string,
     end: string,
     dayWidth: number,
+    nonWorkingDays?: any,
 }
 
 const GanttChartHeader = (props: Props) => {
 
     const days = UI_helper.getDaysInRange(props.start, props.end)
     const weeks = UI_helper.getWeeksInRange(props.start, props.end)
+
+    const isNonWorkingDay = (day_ymd: string) => {
+
+        const match = props.nonWorkingDays.filter((_day: any) => _day === day_ymd)
+
+        return match.length ? true : false
+    }
 
     return (
         <>
@@ -42,6 +50,7 @@ const GanttChartHeader = (props: Props) => {
                             [
                                 'th-day',
                                 'th',
+                                isNonWorkingDay(day.ymd) ? 'th-dark' : '',
                                 day.day_of_week === 'D' ? 'th-dark' : '',
                                 day.today ? 'th-today' : ''
                             ].join(' ')
@@ -65,6 +74,7 @@ const GanttChartHeader = (props: Props) => {
                         [
                             'th-day-month',
                             'th',
+                            isNonWorkingDay(day.ymd) ? 'th-dark' : '',
                             day.day_of_week === 'D' ? 'th-dark' : '',
                             day.today ? 'th-today' : ''
                         ].join(' ')

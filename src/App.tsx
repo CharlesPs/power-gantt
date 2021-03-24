@@ -513,6 +513,10 @@ const App = () => {
                             end={state.ganttEnd}
                             items={state.ganttItems}
                             columns={state.ganttColumns}
+                            nonWorkingDays={[
+                                '2021-02-08',
+                                '2021-02-12',
+                            ]}
                             minTableWidthPercent={20}
                             maxTableWidthPercent={75}
                             dayWidth={40}

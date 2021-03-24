@@ -12,6 +12,7 @@ type Props = {
     dayWidth: number,
     items: any,
     active?: number,
+    nonWorkingDays?: any,
 }
 
 const GanttChartBody = (props: Props) => {
@@ -32,6 +33,7 @@ const GanttChartBody = (props: Props) => {
                 days={days}
                 dayWidth={props.dayWidth}
                 active={props.active}
+                nonWorkingDays={props.nonWorkingDays}
             />
             <GanttChartArrows
                 relations={relations}
