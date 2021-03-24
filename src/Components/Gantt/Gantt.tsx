@@ -183,7 +183,7 @@ const Gantt = (props: Props) => {
 
         const x = UI_helper.getDayPosition(props.start, item.startsAt)
 
-        chartBodyRef.current.scrollLeft = x * props.dayWidth
+        chartBodyRef.current.scrollLeft = (x ? x - 1 : x) * state.dayWidth
 
         setState({
             ...state,
