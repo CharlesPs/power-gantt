@@ -183,12 +183,21 @@ const Gantt = (props: Props) => {
 
         const x = UI_helper.getDayPosition(props.start, item.startsAt)
 
-        chartBodyRef.current.scrollLeft = (x ? x - 1 : x) * state.dayWidth
+        const scrollDiv = chartBodyRef.current.scrollLeft
+        const scrollWidth = chartBodyRef.current.offsetWidth
+        const scrollLimit = scrollDiv + scrollWidth
 
-        setState({
-            ...state,
-            active
-        })
+        const itemPosition = x * state.dayWidth
+
+        if ((scrollLimit <= itemPosition) || (scrollDiv > itemPosition)) {
+
+            chartBodyRef.current.scrollLeft = (x ? x - 1 : x) * state.dayWidth
+
+            setState({
+                ...state,
+                active
+            })
+        }
     }
 
     const onChangeWidth = (dayWidth: number) => {
