@@ -192,12 +192,12 @@ const Gantt = (props: Props) => {
         if ((scrollLimit <= itemPosition) || (scrollDiv > itemPosition)) {
 
             chartBodyRef.current.scrollLeft = (x ? x - 1 : x) * state.dayWidth
-
-            setState({
-                ...state,
-                active
-            })
         }
+
+        setState({
+            ...state,
+            active
+        })
     }
 
     const onChangeWidth = (dayWidth: number) => {
