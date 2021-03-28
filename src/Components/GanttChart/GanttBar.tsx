@@ -50,7 +50,7 @@ const GanttBar = (props: Props) => {
 
             updateTextLeft()
         }
-    }, [ ])
+    }, [ text_ref.current ])
 
     return (
         <g className="gantt-chart-item-bar">
@@ -80,7 +80,7 @@ const GanttBar = (props: Props) => {
             ></rect>
             <text
                 ref={text_ref}
-                className="grid-row-item-text"
+                className="grid-row-item-text dark"
                 x={text_x + 8}
                 y={(props.y * 32) + 21}
             >
