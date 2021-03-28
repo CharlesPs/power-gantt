@@ -351,7 +351,7 @@ const App = () => {
                 name: 'Tarea 1',
                 execute_days: 2,
                 startsAt: '2021-02-16',
-                endsAt: '2021-02-18',
+                endsAt: '2021-02-16',
                 progress: 50,
                 unit: 'Metros',
                 metered: 1,
