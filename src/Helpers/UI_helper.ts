@@ -30,7 +30,8 @@ export const getDaysInRange = (start: string, end: string) => {
             day_of_week: dow[day.format('d')],
             day_of_month: day.date(),
             ymd: day.format('YYYY-MM-DD'),
-            dmy: day.format('DD/MM/YYYY')
+            dmy: day.format('DD/MM/YYYY'),
+            y: day.format('YYYY')
         })
 
         day.add(1, 'day')
@@ -48,11 +49,11 @@ export const getWeeksInRange = (start: string, end: string) => {
 
     days.map((day: any) => {
 
-        const pos = weeks_str.indexOf(day.week_of_year)
+        const pos = weeks_str.indexOf(`${day.week_of_year}-${day.y}`)
 
         if (pos === -1) {
 
-            weeks_str.push(day.week_of_year)
+            weeks_str.push(`${day.week_of_year}-${day.y}`)
 
             weeks.push({
                 first_day: day.moment.format('D MMM YYYY'),
