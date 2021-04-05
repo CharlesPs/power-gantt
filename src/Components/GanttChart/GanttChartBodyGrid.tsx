@@ -8,6 +8,7 @@ type Props = {
     dayWidth: number,
     active?: number,
     nonWorkingDays?: any,
+    showVerticalBorders: boolean,
 }
 
 const GridSpecialDays = (props: any) => {
@@ -19,28 +20,72 @@ const GridSpecialDays = (props: any) => {
         return match.length ? true : false
     }
 
+    const getClassName = (day: any) => {
+
+        let className = ''
+
+        if (day.day_of_week === 'D' || isNonWorkingDay(day.ymd)) {
+
+            className = 'grid-sunday'
+        } else {
+
+            className = 'grid-day'
+        }
+
+        if (props.showVerticalBorders) {
+
+            className += ' with-border'
+        }
+
+        return className
+    }
+
     return props.days.map((day: any, i: number) => {
 
         if (day.today) {
             return (
-                <rect key={i}
-                    className="grid-today"
-                    x={i * props.dayWidth}
-                    y={0}
-                    height={props.items.length * 32}
-                    width={props.dayWidth}
-                ></rect>
+                <>
+                    <rect key={i}
+                        className="grid-today"
+                        x={i * props.dayWidth}
+                        y={0}
+                        height={props.items.length * 32}
+                        width={props.dayWidth}
+                    ></rect>
+                    {!props.showVerticalBorders ? null : (
+                        <line
+                            className="grid-row-line"
+                            x1={i * props.dayWidth}
+                            y1={0}
+                            x2={i * props.dayWidth}
+                            y2={props.items.length * 32}
+                        />
+                    )}
+                </>
             )
         }
 
-        return (day.day_of_week !== 'D' && !isNonWorkingDay(day.ymd)) ? null : (
-            <rect key={i}
-                className="grid-sunday"
-                x={i * props.dayWidth}
-                y={0}
-                height={props.items.length * 32}
-                width={props.dayWidth}
-            ></rect>
+        return (
+            <>
+                {day.day_of_week !== 'D' && !isNonWorkingDay(day.ymd) ? null :(
+                    <rect key={i}
+                        className={getClassName(day)}
+                        x={i * props.dayWidth}
+                        y={0}
+                        height={props.items.length * 32}
+                        width={props.dayWidth}
+                    ></rect>
+                )}
+                {!props.showVerticalBorders ? null : (
+                    <line
+                        className="grid-row-line"
+                        x1={i * props.dayWidth}
+                        y1={0}
+                        x2={i * props.dayWidth}
+                        y2={props.items.length * 32}
+                    />
+                )}
+            </>
         )
     })
 }
@@ -71,6 +116,7 @@ const GanttChartBodyGrid = (props: Props) => {
                     items={props.items}
                     dayWidth={props.dayWidth}
                     nonWorkingDays={props.nonWorkingDays}
+                    showVerticalBorders={props.showVerticalBorders}
                 />
             </g>
         </g>

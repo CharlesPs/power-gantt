@@ -64,8 +64,16 @@ const Gantt = (props: Props) => {
         localStorage.setItem(`gantt-${props.id}-column-fontsize`, `${props.options.dayFontSize}`)
     }
 
+    if (!localStorage.getItem(`gantt-${props.id}-show-vertical-borders`)) {
+
+        localStorage.setItem(`gantt-${props.id}-show-vertical-borders`, '1')
+    }
+
     const localPercent = parseFloat(localStorage.getItem(`gantt-${props.id}`) || '0')
     const localColumnSize = parseInt(localStorage.getItem(`gantt-${props.id}-column-size`) || '0', 10)
+    const _showVerticalBorders = localStorage.getItem(`gantt-${props.id}-show-vertical-borders`) === '1' ? true : false
+
+    const [ showVerticalBorders, setShowVerticalBorders ] = useState(_showVerticalBorders)
 
     const [ state, setState ] = useState({
         divisorPosition: localPercent || 40,
@@ -218,6 +226,13 @@ const Gantt = (props: Props) => {
         })
     }
 
+    const onToggleBorders = () => {
+
+        localStorage.setItem(`gantt-${props.id}-show-vertical-borders`, showVerticalBorders ? '0' : '1')
+
+        setShowVerticalBorders(!showVerticalBorders)
+    }
+
     return (
         <>
             <div className="gantt-container">
@@ -228,7 +243,7 @@ const Gantt = (props: Props) => {
                 <div className="gantt"
                     ref={ganttElRef}
                 >
-                    <div className="gantt-table"
+                    <div className={'gantt-table'}
                         style={{
                             flexBasis: `${state.divisorPosition}%`
                         }}
@@ -243,7 +258,7 @@ const Gantt = (props: Props) => {
                                 }}
                                 >
                                     {props.columns.map((column: any, i: number) => (
-                                        <div key={i} className="th" style={{
+                                        <div key={i} className={'th' + (showVerticalBorders ? ' with-border' : '')} style={{
                                             width: column.width
                                         }}>
                                             {column.text}
@@ -263,6 +278,7 @@ const Gantt = (props: Props) => {
                                 onItemClick={onItemClick}
                                 onItemEdit={props.onItemEdit}
                                 active={state.active}
+                                showVerticalBorders={showVerticalBorders}
                             />
                         </div>
                     </div>
@@ -290,6 +306,7 @@ const Gantt = (props: Props) => {
                                 items={props.items}
                                 active={state.active}
                                 nonWorkingDays={nonWorkingDays}
+                                showVerticalBorders={showVerticalBorders}
                             />
                         </div>
                     </div>
@@ -305,7 +322,9 @@ const Gantt = (props: Props) => {
                             dayMinWidth: props.dayMinWidth || props.dayWidth,
                             dayMaxWidth: props.dayMaxWidth || props.dayWidth,
                             onChangeWidth,
-                            columns: props.columns
+                            columns: props.columns,
+                            showVerticalBorders,
+                            onToggleBorders,
                         }}
                     />
                 </div>

@@ -7,6 +7,7 @@ type Props = {
     onItemClick?: any,
     onToggleCollapse?: any,
     onItemEdit?: any,
+    showVerticalBorders: boolean,
     isActive?: boolean,
 }
 
@@ -157,7 +158,7 @@ const GanttTableRowCell = (props: Props) => {
     }
 
     return (
-        <div className="td"
+        <div className={'td' + (props.showVerticalBorders ? ' with-border' : '')}
             style={{
                 width: column.width,
                 paddingLeft: getPadding()

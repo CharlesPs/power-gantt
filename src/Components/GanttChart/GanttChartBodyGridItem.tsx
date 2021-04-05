@@ -37,8 +37,8 @@ const GanttChartBodyGridItem = (props: Props) => {
             <line
                 className="grid-row-line"
                 x1={0}
-                x2={props.chartWidth - 17}
                 y1={(props.y + 1) * 32}
+                x2={props.chartWidth - 17}
                 y2={(props.y + 1) * 32}
             />
             {/* <text

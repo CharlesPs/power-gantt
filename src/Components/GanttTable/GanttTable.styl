@@ -33,6 +33,12 @@
             height: calc(var(--row-height) * 2);
             justify-content: center
 
+            &.with-border
+                border-right: 1px solid var(--border-color-dark)
+
+            &:last-child
+                border-right 0 none
+
     .body
         height calc(100% - (var(--row-height) * 2))
         margin-right -17px
@@ -48,7 +54,7 @@
                 background-color var(--gantt-item-color-bg-hover)
 
             &.active
-                background-color var(--gantt-item-color-bg-active)
+                background-color var(--selected-row-bg)
 
                 .editable
                     text-decoration: underline
@@ -60,6 +66,12 @@
             display: flex
             flex-direction: row
             justify-content: flex-start
+
+            &.with-border
+                border-right 1px solid var(--border-color-dark)
+
+            &:last-child
+                border-right 0 none
 
             span
                 display: flex

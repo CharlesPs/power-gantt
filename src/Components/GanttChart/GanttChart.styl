@@ -44,7 +44,7 @@
                 border-right 0 none
 
         .th-dark
-            background-color var(--border-color)
+            background-color var(--day-sunday-bg)
             border-color var(--border-color-dark)
 
         .th-today
@@ -77,7 +77,7 @@
                     fill var(--gantt-item-color-bg-hover)
 
                 &.active
-                    fill var(--gantt-item-color-bg-active)
+                    fill var(--selected-row-bg)
 
             .gantt-chart-item
 
@@ -115,10 +115,17 @@
                 stroke var(--border-color-dark)
                 stroke-width: 1px
 
+            .grid-day
+                fill rgba(255, 255, 255, 0)
+
+                // &.with-border
+                //     stroke var(--border-color-dark)
+                //     stroke-width: 1px
+
             .grid-sunday
-                fill var(--border-color)
-                stroke var(--border-color-dark)
-                stroke-width: 1px
+                fill var(--day-sunday-bg)
+                // stroke var(--day-sunday-border)
+                // stroke-width: 1px
 
             .gantt-arrow
                 stroke #333

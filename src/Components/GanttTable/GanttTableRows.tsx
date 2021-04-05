@@ -11,6 +11,7 @@ type Props = {
     onToggleCollapse: any,
     onItemClick: any,
     onItemEdit?: any,
+    showVerticalBorders: boolean,
     active?: any,
 }
 
@@ -58,6 +59,7 @@ const GanttTableRows = (props: Props) => {
                             onToggleCollapse={props.onToggleCollapse}
                             onItemEdit={props.onItemEdit}
                             isActive={props.active === i}
+                            showVerticalBorders={props.showVerticalBorders}
                         />
                     ))}
                 </div>
