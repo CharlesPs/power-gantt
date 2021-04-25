@@ -525,6 +525,7 @@ const App = () => {
                             onToggleCollapse={toggleCollapse}
                             onItemEdit={onItemEdit}
                             options={{
+                                height: 500,
                                 buttonClassName: 'btn btn-default',
                                 showWidthButtons: true,
                                 showVerticalBordersControl: true,

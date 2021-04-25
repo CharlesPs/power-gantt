@@ -235,7 +235,11 @@ const Gantt = (props: Props) => {
 
     return (
         <>
-            <div className="gantt-container">
+            <div className="gantt-container"
+                style={{
+                    height: props.options.height
+                }}
+            >
                 <GanttToolbar
                     options={props.toolbar}
                     onToggleOptions={() => setState({ ...state, showOptions: !state.showOptions })}
