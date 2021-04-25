@@ -235,17 +235,16 @@ const Gantt = (props: Props) => {
 
     return (
         <>
-            <div className="gantt-container"
-                style={{
-                    height: props.options.height
-                }}
-            >
+            <div className="gantt-container">
                 <GanttToolbar
                     options={props.toolbar}
                     onToggleOptions={() => setState({ ...state, showOptions: !state.showOptions })}
                 />
                 <div className="gantt"
                     ref={ganttElRef}
+                    style={{
+                        height: props.options.height
+                    }}
                 >
                     <div className={'gantt-table'}
                         style={{
