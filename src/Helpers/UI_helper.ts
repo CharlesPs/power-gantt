@@ -123,7 +123,13 @@ export const getRelations = (items: any) => {
 
         if (item.type === 'task') {
 
-            obj_items[item.task_id] = { item, i }
+            const is_valid_task = item.task_type !== 'hito' && item.startsAt !== null && item.endsAt !== null
+            const is_valid_hito = item.task_type === 'hito' && item.startsAt !== null
+
+            if (is_valid_hito || is_valid_task) {
+
+                obj_items[item.task_id] = { item, i }
+            }
         } else {
 
             if (item.collapseStatus === 'collapsed') {

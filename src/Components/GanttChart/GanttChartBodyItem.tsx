@@ -19,6 +19,14 @@ type Props = {
 
 const GanttChartBodyItem = (props: Props) => {
 
+    const is_valid_task = props.item.task_type !== 'hito' && props.item.startsAt !== null && props.item.endsAt !== null
+    const is_valid_hito = props.item.task_type === 'hito' && props.item.startsAt !== null
+
+    if (!is_valid_task && !is_valid_hito) {
+
+        return null
+    }
+
     const x = UI_helper.getDayPosition(props.ganttStart, props.item.startsAt) * props.dayWidth
 
     const w = UI_helper.getDaysLength(props.item.startsAt, props.item.endsAt) * props.dayWidth
