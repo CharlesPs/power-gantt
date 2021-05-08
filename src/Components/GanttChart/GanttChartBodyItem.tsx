@@ -59,7 +59,7 @@ const GanttChartBodyItem = (props: Props) => {
                             x={x}
                             y={props.y}
                             w={w}
-                            title={props.item.title}
+                            title={props.item.bar_text}
                             color={color}
                             progress={props.item.progress}
                             ganttWidth={props.ganttWidth}

@@ -52,6 +52,7 @@ const App = () => {
             task_id: item.task._id,
             task_type: item.task.type,
             title: item.task.name,
+            bar_text: `BB ${item.task.name} (${item.task.progress}%)`,
             color: colorsTo === 'status' ? statusColors[item.task.status] : codesColors[item.task.code],
             status: statusStrings[item.task.status],
             execute_days: item.task.execute_days,

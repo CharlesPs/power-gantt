@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 type Props = {
     x: number,
@@ -15,23 +15,25 @@ const GanttBar = (props: Props) => {
 
     const text_ref: any = useRef()
 
-    let text_x = props.x
+    const [ textX, setTextX ] = useState(props.x)
 
     const progress_w = (props.w - 8) * (props.progress || 0) / 100
 
     useEffect(() => {
 
+        let text_x = props.x
+
         const getTextWidth = () => {
 
 
-            return text_ref.current.getBBox().width
+            return parseInt(text_ref.current.getBBox().width, 10)
         }
 
         const updateTextLeft = () => {
 
-            const text_w = getTextWidth()
+            const text_w = getTextWidth() + 15
 
-            if (text_w >= (props.w - 8)) {
+            if (text_w >= props.w) {
 
                 text_ref.current.classList.add('dark')
 
@@ -42,15 +44,18 @@ const GanttBar = (props: Props) => {
                     text_x = props.x - text_w - 4
                 }
 
-                text_ref.current.setAttribute('x', text_x)
+                setTextX(text_x)
             }
         }
 
-        if (text_ref.current && props.w < getTextWidth()) {
+        if (text_ref.current) {
 
-            updateTextLeft()
+            if (props.w <= (getTextWidth() + 15)) {
+
+                updateTextLeft()
+            }
         }
-    }, [ text_ref.current ])
+    }, [ text_ref, props.ganttWidth, props.title, props.w, props.x ])
 
     return (
         <g className="gantt-chart-item-bar">
@@ -81,10 +86,10 @@ const GanttBar = (props: Props) => {
             <text
                 ref={text_ref}
                 className="grid-row-item-text dark"
-                x={text_x + 8}
+                x={textX + 8}
                 y={(props.y * 32) + 21}
             >
-                {`${props.title} (${props.progress || 0}%)`}
+                {props.title}
             </text>
         </g>
     )
