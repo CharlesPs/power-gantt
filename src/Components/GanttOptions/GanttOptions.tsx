@@ -1,13 +1,17 @@
 
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 
 type Props = {
     show: boolean,
+    onHide: any,
     options: any,
+    children?: any,
     // onChangeWidth: any,
 }
 
 const GanttOptions = (props: Props) => {
+
+    const optionsRef: any = useRef(null)
 
     const defaultOptions = {
         showWidthButtons: false,
@@ -38,8 +42,25 @@ const GanttOptions = (props: Props) => {
         }
     }
 
+    useEffect(() => {
+
+        const handleClickOutside = (e: any) => {
+
+            if (optionsRef.current && !optionsRef.current.contains(e.target)) {
+
+                props.onHide()
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [ optionsRef ])
+
     return (
-        <div className={`gantt-options ${!props.show ? '' : 'open'}`}>
+        <div className={`gantt-options ${!props.show ? '' : 'open'}`}
+            ref={optionsRef}
+        >
             <div>
                 {!options.showWidthButtons ? null : (
                     <div className="form-group">
@@ -67,6 +88,7 @@ const GanttOptions = (props: Props) => {
                         </label>
                     </div>
                 </div>
+                {props.children}
             </div>
         </div>
     )
