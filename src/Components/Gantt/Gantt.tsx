@@ -121,6 +121,11 @@ const Gantt = (props: Props) => {
 
     useEffect(() => {
 
+        setItems(props.items)
+    }, [ props.items ])
+
+    useEffect(() => {
+
         const getMaxTablePercent = (max_calculated: number, max_by_setting: number) => {
 
 
