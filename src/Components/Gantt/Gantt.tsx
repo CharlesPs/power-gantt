@@ -87,8 +87,6 @@ const Gantt = (props: Props) => {
         active: -1,
     })
 
-    const [ items, setItems ] = useState(JSON.parse(JSON.stringify(props.items)))
-
     const ganttElRef: any = useRef()
 
     const tableHeaderRef: any = useRef()
@@ -118,11 +116,6 @@ const Gantt = (props: Props) => {
             divisorPosition: porcentaje
         })
     }
-
-    useEffect(() => {
-
-        setItems(props.items)
-    }, [ props.items ])
 
     useEffect(() => {
 
@@ -283,7 +276,7 @@ const Gantt = (props: Props) => {
                             onScroll={(e: any) => onTableBodyScroll()}
                         >
                             <GanttTableRows
-                                items={items}
+                                items={props.items}
                                 columns={props.columns}
                                 onToggleCollapse={props.onToggleCollapse}
                                 onItemClick={onItemClick}
@@ -314,7 +307,7 @@ const Gantt = (props: Props) => {
                                 start={props.start}
                                 end={props.end}
                                 dayWidth={state.dayWidth}
-                                items={items}
+                                items={props.items}
                                 active={state.active}
                                 nonWorkingDays={nonWorkingDays}
                                 showVerticalBorders={showVerticalBorders}
