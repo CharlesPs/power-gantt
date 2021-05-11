@@ -34,6 +34,7 @@ type Props = {
     onItemEdit?: any,
     toolbar?: any,
     options?: any,
+    sidebar?: any,
 }
 
 let scrollTop = 0
@@ -85,6 +86,8 @@ const Gantt = (props: Props) => {
         dayWidth: localColumnSize || props.dayWidth || 32,
         active: -1,
     })
+
+    const [ items, setItems ] = useState(JSON.parse(JSON.stringify(props.items)))
 
     const ganttElRef: any = useRef()
 
@@ -275,7 +278,7 @@ const Gantt = (props: Props) => {
                             onScroll={(e: any) => onTableBodyScroll()}
                         >
                             <GanttTableRows
-                                items={props.items}
+                                items={items}
                                 columns={props.columns}
                                 onToggleCollapse={props.onToggleCollapse}
                                 onItemClick={onItemClick}
@@ -306,7 +309,7 @@ const Gantt = (props: Props) => {
                                 start={props.start}
                                 end={props.end}
                                 dayWidth={state.dayWidth}
-                                items={props.items}
+                                items={items}
                                 active={state.active}
                                 nonWorkingDays={nonWorkingDays}
                                 showVerticalBorders={showVerticalBorders}
@@ -319,6 +322,7 @@ const Gantt = (props: Props) => {
                     />
                     <GanttOptions
                         show={state.showOptions}
+                        onHide={() => setState({ ...state, showOptions: false })}
                         options={{
                             ...props.options,
                             dayWidth: state.dayWidth,
@@ -329,7 +333,11 @@ const Gantt = (props: Props) => {
                             showVerticalBorders,
                             onToggleBorders,
                         }}
-                    />
+                    >
+                        <div>
+                            {props.sidebar}
+                        </div>
+                    </GanttOptions>
                 </div>
             </div>
         </>
