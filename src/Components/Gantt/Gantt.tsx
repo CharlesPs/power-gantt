@@ -46,7 +46,7 @@ let chartScrollLeft = 0
 const Gantt = (props: Props) => {
 
     const nonWorkingDays = props.nonWorkingDays || []
-    const hideNonWorkingDays = props.hideNonWorkingDays ?? false
+    const hideNonWorkingDays = props.hideNonWorkingDays || false
 
     moment.locale('es')
 
