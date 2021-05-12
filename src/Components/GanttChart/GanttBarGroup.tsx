@@ -64,7 +64,7 @@ const GanttBarGroup = (props: Props) => {
                             x={bar.x + 4}
                             y={(props.y)}
                             w={bar.w - 8}
-                            title={bar.code}
+                            title={bar.text}
                             color={bar.color}
                             progress={bar.progress}
                             ganttWidth={props.ganttWidth}

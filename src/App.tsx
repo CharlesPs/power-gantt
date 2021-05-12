@@ -54,6 +54,7 @@ const App = () => {
             task_type: item.task.type,
             title: item.task.name,
             bar_text: `${item.task.colorCode.code} ${item.task.name} (${item.task.progress}%)`,
+            bar_short_text: item.task.colorCode.code,
             color: colorsTo === 'status' ? statusColors[item.task.status] : codesColors[item.task.code],
             status: statusStrings[item.task.status],
             execute_days: item.task.execute_days,
@@ -84,6 +85,7 @@ const App = () => {
                 if (item.type === 'task') {
 
                     item.color = colorsTo === 'status' ? statusColors[item.task.status] : codesColors[item.task.code]
+                    item.bar_short_text = item.task.colorCode.code
                 }
 
                 return item

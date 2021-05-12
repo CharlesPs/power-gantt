@@ -424,7 +424,7 @@ export const getGroupBars = (items: any) => {
                 color: item0.color,
                 progress: item0.task.progress,
                 relations: item0.task.relations,
-                code: item0.task.colorCode.code,
+                text: item0.bar_short_text,
             })
         } else {
 
@@ -439,7 +439,7 @@ export const getGroupBars = (items: any) => {
                         color: item1.color,
                         progress: item1.task.progress,
                         relations: item1.task.relations,
-                        code: item1.task.colorCode.code,
+                        text: item0.bar_short_text,
                     })
                 }
             })
