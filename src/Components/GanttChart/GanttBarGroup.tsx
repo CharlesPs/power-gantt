@@ -29,8 +29,15 @@ const GanttBarGroup = (props: Props) => {
 
         bars.map((bar: any) => {
 
-            bar.x = UI_helper.getDayPosition(props.ganttStart, bar.startsAt) * props.dayWidth
-            bar.w = UI_helper.getDaysLength(bar.startsAt, bar.endsAt) * props.dayWidth
+            if (props.hideNonWorkingDays) {
+
+                bar.x = UI_helper.getDayPositionWithoutNonWorkingDays(props.ganttStart, bar.startsAt, props.nonWorkingDays) * props.dayWidth
+                bar.w = UI_helper.getDaysLengthWithoutNonWorkingDays(bar.startsAt, bar.endsAt, props.nonWorkingDays) * props.dayWidth
+            } else {
+
+                bar.x = UI_helper.getDayPosition(props.ganttStart, bar.startsAt) * props.dayWidth
+                bar.w = UI_helper.getDaysLength(bar.startsAt, bar.endsAt) * props.dayWidth
+            }
         })
     }
 
