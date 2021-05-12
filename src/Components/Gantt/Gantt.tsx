@@ -78,7 +78,6 @@ const Gantt = (props: Props) => {
 
     const [ state, setState ] = useState({
         divisorPosition: localPercent || 40,
-        showOptions: false,
         ganttWidth: 0,
         ganttLeft: 0,
         minTableWidthPercent: props.minTableWidthPercent || 20,
@@ -86,6 +85,8 @@ const Gantt = (props: Props) => {
         dayWidth: localColumnSize || props.dayWidth || 32,
         active: -1,
     })
+
+    const [ showOptions, setShowOptions ] = useState(false)
 
     const ganttElRef: any = useRef()
 
@@ -239,7 +240,7 @@ const Gantt = (props: Props) => {
             <div className="gantt-container">
                 <GanttToolbar
                     options={props.toolbar}
-                    onToggleOptions={() => setState({ ...state, showOptions: !state.showOptions })}
+                    onToggleOptions={() => setShowOptions(true)}
                 />
                 <div className="gantt"
                     ref={ganttElRef}
@@ -319,8 +320,8 @@ const Gantt = (props: Props) => {
                         onScroll={(newPosition: any) => updateDivisorPosition(newPosition)}
                     />
                     <GanttOptions
-                        show={state.showOptions}
-                        onHide={() => setState({ ...state, showOptions: false })}
+                        show={showOptions}
+                        onHide={() => setShowOptions(false)}
                         options={{
                             ...props.options,
                             dayWidth: state.dayWidth,
