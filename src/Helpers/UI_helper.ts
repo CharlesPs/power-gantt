@@ -15,7 +15,7 @@ export const getTableWidth = (columns: any) => {
     return anchos.reduce((suma: number, valor: number) => suma + valor)
 }
 
-export const getDaysInRange = (start: string, end: string) => {
+export const getDaysInRange = (start: string, end: string, hideNonWorkingDays: boolean = false) => {
 
     const days = []
 
@@ -40,9 +40,69 @@ export const getDaysInRange = (start: string, end: string) => {
     return days
 }
 
+export const getDaysInRangeWithoutNonWorkingDays = (start: string, end: string, nonWorkingDays: any) => {
+
+    const days = []
+
+    const day = moment(start)
+
+    while (day.isSameOrBefore(end)) {
+
+        const ymd = day.format('YYYY-MM-DD')
+
+        if (!nonWorkingDays.includes(ymd) && day.format('d') !== '0') {
+
+            days.push({
+                moment: day.clone(),
+                today: day.isSame(moment().format('YYYY-MM-DD')),
+                week_of_year: day.format('w'),
+                day_of_week: dow[day.format('d')],
+                day_of_month: day.date(),
+                ymd,
+                dmy: day.format('DD/MM/YYYY'),
+                y: day.format('YYYY')
+            })
+        }
+
+        day.add(1, 'day')
+    }
+
+    return days
+}
+
 export const getWeeksInRange = (start: string, end: string) => {
 
     const days = getDaysInRange(start, end)
+
+    const weeks_str: any = []
+    const weeks: any = []
+
+    days.map((day: any) => {
+
+        const pos = weeks_str.indexOf(`${day.week_of_year}-${day.y}`)
+
+        if (pos === -1) {
+
+            weeks_str.push(`${day.week_of_year}-${day.y}`)
+
+            weeks.push({
+                first_day: day.moment.format('D MMM YYYY'),
+                days: 1
+            })
+        } else {
+
+            weeks[pos].days += 1
+        }
+
+        return weeks
+    })
+
+    return weeks
+}
+
+export const getWeeksInRangeWithoutNonWorkingDays = (start: string, end: string, nonWorkingDays: any) => {
+
+    const days = getDaysInRangeWithoutNonWorkingDays(start, end, nonWorkingDays)
 
     const weeks_str: any = []
     const weeks: any = []
@@ -97,6 +157,36 @@ export const getDayPosition = (ganttStart: string, itemStart: string) => {
     return x
 }
 
+export const getDayPositionWithoutNonWorkingDays = (ganttStart: string, itemStart: string, nonWorkingDays: any) => {
+
+    const day = moment(itemStart)
+
+    let x = 0
+
+    if (day.isBefore(ganttStart)) {
+
+        while (day.isBefore(ganttStart)) {
+
+            x -= 1
+
+            day.add(1, 'day')
+        }
+    } else if (day.isAfter(ganttStart)) {
+
+        while (day.isAfter(ganttStart)) {
+
+            if (!nonWorkingDays.includes(day.format('YYYY-MM-DD')) && day.format('d') !== '0') {
+
+                x += 1
+            }
+
+            day.subtract(1, 'day')
+        }
+    }
+
+    return x
+}
+
 export const getDaysLength = (start: string, end: string) => {
 
     let len = 0
@@ -106,6 +196,25 @@ export const getDaysLength = (start: string, end: string) => {
     while(day.isSameOrBefore(end)) {
 
         len += 1
+
+        day.add(1, 'day')
+    }
+
+    return len
+}
+
+export const getDaysLengthWithoutNonWorkingDays = (start: string, end: string, nonWorkingDays: any) => {
+
+    let len = 0
+
+    const day = moment(start)
+
+    while(day.isSameOrBefore(end)) {
+
+        if (!nonWorkingDays.includes(day.format('YYYY-MM-DD')) && day.format('d') !== '0') {
+
+            len += 1
+        }
 
         day.add(1, 'day')
     }
@@ -315,6 +424,7 @@ export const getGroupBars = (items: any) => {
                 color: item0.color,
                 progress: item0.task.progress,
                 relations: item0.task.relations,
+                code: item0.task.colorCode.code,
             })
         } else {
 
@@ -329,6 +439,7 @@ export const getGroupBars = (items: any) => {
                         color: item1.color,
                         progress: item1.task.progress,
                         relations: item1.task.relations,
+                        code: item1.task.colorCode.code,
                     })
                 }
             })
@@ -341,9 +452,13 @@ export const getGroupBars = (items: any) => {
 export default {
     getTableWidth,
     getDaysInRange,
+    getDaysInRangeWithoutNonWorkingDays,
     getWeeksInRange,
+    getWeeksInRangeWithoutNonWorkingDays,
     getDayPosition,
+    getDayPositionWithoutNonWorkingDays,
     getDaysLength,
+    getDaysLengthWithoutNonWorkingDays,
     getRelations,
     getGroupDuration,
     getGroupProgress,

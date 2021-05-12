@@ -15,6 +15,7 @@ import './App.css'
 const App = () => {
 
     const [ colorsTo, setColorsTo ] = useState('status')
+    const [ hideNonWorkingDays, setHideNonWorkingDays ] = useState(false)
 
     const statusStrings: any = {
         atrasada: 'Atrasada',
@@ -52,7 +53,7 @@ const App = () => {
             task_id: item.task._id,
             task_type: item.task.type,
             title: item.task.name,
-            bar_text: `BB ${item.task.name} (${item.task.progress}%)`,
+            bar_text: `${item.task.colorCode.code} ${item.task.name} (${item.task.progress}%)`,
             color: colorsTo === 'status' ? statusColors[item.task.status] : codesColors[item.task.code],
             status: statusStrings[item.task.status],
             execute_days: item.task.execute_days,
@@ -215,7 +216,10 @@ const App = () => {
                             crewNumber: 3,
                             estimatedDays: 4,
                             status: 'pendiente',
-                            code: 'green',
+                            colorCode: {
+                                code: 'AA',
+                                color: "#ff0000"
+                            },
                             relations: [
                                 {
                                     type: 'end_to_start',
@@ -241,7 +245,10 @@ const App = () => {
                             crewNumber: 3,
                             estimatedDays: 4,
                             status: 'atrasada',
-                            code: 'green',
+                            colorCode: {
+                                code: 'AA',
+                                color: "#ff0000"
+                            },
                             relations: [
                                 {
                                     type: 'end_to_start',
@@ -276,7 +283,10 @@ const App = () => {
                                         crewNumber: 3,
                                         estimatedDays: 4,
                                         status: 'completada',
-                                        code: 'green',
+                                        colorCode: {
+                                            code: 'AA',
+                                            color: "#ff0000"
+                                        },
                                         relations: [
                                             {
                                                 type: 'end_to_start',
@@ -302,7 +312,10 @@ const App = () => {
                                         crewNumber: 3,
                                         estimatedDays: 4,
                                         status: 'completada',
-                                        code: 'green',
+                                        colorCode: {
+                                            code: 'AA',
+                                            color: "#ff0000"
+                                        },
                                         relations: [
                                             {
                                                 type: 'end_to_start',
@@ -326,8 +339,8 @@ const App = () => {
                 type: 'hito',
                 name: 'Hito 1',
                 execute_days: 0,
-                startsAt: '2021-02-14',
-                endsAt: '2021-02-14',
+                startsAt: '2021-02-15',
+                endsAt: '2021-02-15',
                 progress: 50,
                 unit: 'Metros',
                 metered: 1,
@@ -335,7 +348,10 @@ const App = () => {
                 crewNumber: 3,
                 estimatedDays: 4,
                 status: 'atrasada',
-                code: 'green',
+                colorCode: {
+                    code: 'AA',
+                    color: "#ff0000"
+                },
                 relations: [
                     {
                         task_id: 'item1'
@@ -360,7 +376,10 @@ const App = () => {
                 crewNumber: 3,
                 estimatedDays: 4,
                 status: 'atrasada',
-                code: 'green',
+                colorCode: {
+                    code: 'AA',
+                    color: "#ff0000"
+                },
                 relations: []
             }
         },
@@ -515,9 +534,12 @@ const App = () => {
                             items={state.ganttItems}
                             columns={state.ganttColumns}
                             nonWorkingDays={[
-                                '2021-02-08',
+                                '2021-02-02',
+                                '2021-02-04',
                                 '2021-02-12',
+                                '2021-02-16',
                             ]}
+                            hideNonWorkingDays={hideNonWorkingDays}
                             minTableWidthPercent={20}
                             maxTableWidthPercent={75}
                             dayWidth={40}
@@ -547,6 +569,27 @@ const App = () => {
                                 ],
                                 right: []
                             }}
+                            sidebar={(
+                                <>
+                                    <div className="form-group">
+                                        <div className="form-check">
+                                            <input
+                                                id="toggle-non-working-days"
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                checked={hideNonWorkingDays}
+                                                onChange={(e) => {
+
+                                                    setHideNonWorkingDays(e.currentTarget.checked)}
+                                                }
+                                            />
+                                            <label className="form-check-label" htmlFor="toggle-non-working-days">
+                                                Ocultar dias no laborables
+                                            </label>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
                         />
                     </div>
                 </div>

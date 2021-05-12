@@ -13,6 +13,8 @@ type Props ={
     ganttWidth: number,
     dayWidth: number,
     collapseStatus: string,
+    nonWorkingDays?: any,
+    hideNonWorkingDays?: boolean,
 }
 
 const GanttBarGroup = (props: Props) => {
@@ -32,23 +34,34 @@ const GanttBarGroup = (props: Props) => {
         })
     }
 
-    const x = UI_helper.getDayPosition(props.ganttStart, durationAndProgress.startsAt) * props.dayWidth
+    let x: number
+    let w: number
 
-    const w = UI_helper.getDaysLength(durationAndProgress.startsAt, durationAndProgress.endsAt) * props.dayWidth
+    if (props.hideNonWorkingDays) {
+
+        x = UI_helper.getDayPositionWithoutNonWorkingDays(props.ganttStart, durationAndProgress.startsAt, props.nonWorkingDays) * props.dayWidth
+        w = UI_helper.getDaysLengthWithoutNonWorkingDays(durationAndProgress.startsAt, durationAndProgress.endsAt, props.nonWorkingDays) * props.dayWidth
+    } else {
+
+        x = UI_helper.getDayPosition(props.ganttStart, durationAndProgress.startsAt) * props.dayWidth
+        w = UI_helper.getDaysLength(durationAndProgress.startsAt, durationAndProgress.endsAt) * props.dayWidth
+    }
+
 
     return (
         <>
             {props.collapseStatus === 'collapsed' && !has_groups ? (
                 <g className="gantt-chart-item-group-bar">
                     {bars.map((bar: any, i: number) => (
-                        <rect key={i}
-                            className="grid-row-item"
-                            fill={bar.color}
+                        <GanttBarTask key={i}
                             x={bar.x + 4}
-                            y={(props.y * 32) + 6}
-                            height={20}
-                            width={bar.w - 8}
-                        ></rect>
+                            y={(props.y)}
+                            w={bar.w - 8}
+                            title={bar.code}
+                            color={bar.color}
+                            progress={bar.progress}
+                            ganttWidth={props.ganttWidth}
+                        />
                     ))}
                 </g>
             ) : (

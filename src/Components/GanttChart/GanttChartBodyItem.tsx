@@ -15,6 +15,8 @@ type Props = {
     item: any,
     dayWidth: number,
     ganttWidth: number,
+    nonWorkingDays?: any,
+    hideNonWorkingDays?: boolean,
 }
 
 const GanttChartBodyItem = (props: Props) => {
@@ -27,9 +29,20 @@ const GanttChartBodyItem = (props: Props) => {
         return null
     }
 
-    const x = UI_helper.getDayPosition(props.ganttStart, props.item.startsAt) * props.dayWidth
+    let x: number
+    let w: number
 
-    const w = UI_helper.getDaysLength(props.item.startsAt, props.item.endsAt) * props.dayWidth
+    if (props.hideNonWorkingDays) {
+
+        x = UI_helper.getDayPositionWithoutNonWorkingDays(props.ganttStart, props.item.startsAt, props.nonWorkingDays) * props.dayWidth
+        w = UI_helper.getDaysLengthWithoutNonWorkingDays(props.item.startsAt, props.item.endsAt, props.nonWorkingDays) * props.dayWidth
+    } else {
+
+        x = UI_helper.getDayPosition(props.ganttStart, props.item.startsAt) * props.dayWidth
+        w = UI_helper.getDaysLength(props.item.startsAt, props.item.endsAt) * props.dayWidth
+    }
+
+
 
     const color = props.item.color || '#333333'
 
@@ -45,6 +58,8 @@ const GanttChartBodyItem = (props: Props) => {
                     ganttWidth={props.ganttWidth}
                     dayWidth={props.dayWidth}
                     collapseStatus={props.item.collapseStatus}
+                    nonWorkingDays={props.nonWorkingDays}
+                    hideNonWorkingDays={props.hideNonWorkingDays}
                 />
             ) : (
                 <>

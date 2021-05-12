@@ -7,12 +7,25 @@ type Props = {
     end: string,
     dayWidth: number,
     nonWorkingDays?: any,
+    hideNonWorkingDays?: boolean,
 }
 
 const GanttChartHeader = (props: Props) => {
 
-    const days = UI_helper.getDaysInRange(props.start, props.end)
-    const weeks = UI_helper.getWeeksInRange(props.start, props.end)
+
+    let days: any = []
+    let weeks: any = []
+
+    if (props.hideNonWorkingDays) {
+
+        days = UI_helper.getDaysInRangeWithoutNonWorkingDays(props.start, props.end, props.nonWorkingDays)
+        weeks = UI_helper.getWeeksInRangeWithoutNonWorkingDays(props.start, props.end, props.nonWorkingDays)
+    } else {
+
+        days = UI_helper.getDaysInRange(props.start, props.end)
+        weeks = UI_helper.getWeeksInRange(props.start, props.end)
+    }
+
 
     const isNonWorkingDay = (day_ymd: string) => {
 

@@ -8,6 +8,8 @@ type Props = {
     relations: any,
     dayWidth: number,
     ganttStart: string,
+    nonWorkingDays?: any,
+    hideNonWorkingDays?: boolean,
 }
 
 const GanttChartArrows = (props: Props) => {
@@ -20,7 +22,19 @@ const GanttChartArrows = (props: Props) => {
 
         return props.relations.map((relation: any) => {
 
-            let startX = UI_helper.getDayPosition(props.ganttStart, relation.fromDay)
+            let startX: number
+            let endX: number
+
+            if (props.hideNonWorkingDays) {
+
+                startX = UI_helper.getDayPositionWithoutNonWorkingDays(props.ganttStart, relation.fromDay, props.nonWorkingDays)
+                endX = UI_helper.getDayPositionWithoutNonWorkingDays(props.ganttStart, relation.toDay, props.nonWorkingDays)
+            } else {
+
+                startX = UI_helper.getDayPosition(props.ganttStart, relation.fromDay)
+                endX = UI_helper.getDayPosition(props.ganttStart, relation.toDay)
+            }
+
 
             if (relation.type === 'end_to_start') {
 
@@ -30,7 +44,7 @@ const GanttChartArrows = (props: Props) => {
             return {
                 fromX: startX * props.dayWidth,
                 fromY: relation.fromRow * 32,
-                toX: UI_helper.getDayPosition(props.ganttStart, relation.toDay) * props.dayWidth,
+                toX: endX * props.dayWidth,
                 toY: relation.toRow * 32,
                 type: relation.type
             }
