@@ -13,8 +13,6 @@
   - Items progress bar
   - Bar and diamond types
 
-You can also:
-  - Reorder items by drag and drop
 ### Installation
 
 ```sh
