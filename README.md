@@ -24,6 +24,10 @@ $ yarn add power-gantt
 ```
 ### Use
 ```
+import Gantt from 'power-gantt'
+```
+
+```
 const items = [
     {
         "_id": "itemG1",
